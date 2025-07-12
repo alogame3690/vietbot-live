@@ -1,4 +1,4 @@
-# VietBot Live Status - 2025-07-12 13:16:55
+# VietBot Live Status - 2025-07-12 13:17:01
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
@@ -30,18 +30,18 @@ vietbot_node_exporter       Up 2 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.00%     13.8MiB / 3.82GiB
-vietbot_pgadmin             0.03%     230.5MiB / 3.82GiB
-vietbot_n8n                 0.83%     166.4MiB / 3.82GiB
+vietbot_caddy               0.02%     13.8MiB / 3.82GiB
+vietbot_pgadmin             0.05%     230.5MiB / 3.82GiB
+vietbot_n8n                 0.80%     165.8MiB / 3.82GiB
 vietbot_postgres_exporter   0.00%     7.508MiB / 3.82GiB
 vietbot_redisinsight        0.00%     96.64MiB / 3.82GiB
 vietbot_redis_exporter      0.00%     8.285MiB / 3.82GiB
-vietbot_prometheus          0.01%     39.57MiB / 3.82GiB
-vietbot_dozzle              0.00%     11.29MiB / 3.82GiB
-vietbot_grafana             0.21%     76.76MiB / 3.82GiB
-vietbot_postgres            0.04%     30.1MiB / 3.82GiB
-vietbot_portainer           0.01%     10.68MiB / 3.82GiB
-vietbot_redis               0.72%     3.23MiB / 3.82GiB
+vietbot_prometheus          0.00%     39.57MiB / 3.82GiB
+vietbot_dozzle              0.18%     11.29MiB / 3.82GiB
+vietbot_grafana             0.28%     76.75MiB / 3.82GiB
+vietbot_postgres            3.63%     30.1MiB / 3.82GiB
+vietbot_portainer           0.00%     10.68MiB / 3.82GiB
+vietbot_redis               3.13%     3.227MiB / 3.82GiB
 vietbot_node_exporter       0.00%     9.133MiB / 3.82GiB
 ```
 
