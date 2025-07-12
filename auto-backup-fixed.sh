@@ -1,10 +1,13 @@
 #!/bin/bash
-# VietBot Complete Backup Script
+# VietBot Fixed Backup Script
 cd /opt/vietbot/realtime-backup
 
+# Get current time
+NOW=$(date +"%Y-%m-%d %H:%M:%S")
+
 # 1. SYSTEM STATUS
-cat > STATUS.md << 'EOF'
-# VietBot Live Status - $(date +"%Y-%m-%d %H:%M:%S")
+cat > STATUS.md << EOF
+# VietBot Live Status - $NOW
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
@@ -13,7 +16,7 @@ cat > STATUS.md << 'EOF'
 - Uptime: $(uptime -p)
 - CPU: $(nproc) cores
 - RAM: $(free -h | grep Mem | awk '{print $2}')
-- Disk: $(df -h / | tail -1 | awk '{print $4}' ) free
+- Disk: $(df -h / | tail -1 | awk '{print $4}') free
 
 ## 🐳 Docker Services
 \`\`\`
@@ -56,41 +59,32 @@ $(docker logs redis --tail 10 2>&1 | grep -i error || echo "No errors")
 \`\`\`
 $(tree -L 2 /opt/vietbot 2>/dev/null || ls -la /opt/vietbot)
 \`\`\`
-
-## 🔧 Environment Variables
-\`\`\`
-$(docker exec n8n env | grep -E "N8N_|DB_|NODE_" | sort)
-\`\`\`
-
-## 📝 Last Actions
-\`\`\`
-$(tail -10 /var/log/syslog | grep -i vietbot 2>/dev/null || echo "No recent logs")
-\`\`\`
 EOF
 
 # 2. DOCKER COMPOSE CONFIG
-cat > DOCKER_COMPOSE.yml << 'EOF'
-# Current Docker Compose Configuration
+cat > DOCKER_COMPOSE.yml << EOF
+# Docker Compose Configuration - $NOW
 $(cat /opt/vietbot/docker-compose.yml)
 EOF
 
-# 3. N8N WORKFLOWS (if any)
+# 3. N8N WORKFLOWS
 mkdir -p workflows
 docker exec n8n n8n export:workflow --all --output=/tmp/workflows.json 2>/dev/null && \
 docker cp n8n:/tmp/workflows.json workflows/all_workflows_$(date +%Y%m%d).json 2>/dev/null || \
 echo "No workflows to export" > workflows/README.md
 
 # 4. DATABASE SCHEMA
-cat > DATABASE_SCHEMA.md << 'EOF'
-# Database Schema - $(date)
+cat > DATABASE_SCHEMA.md << EOF
+# Database Schema - $NOW
 \`\`\`sql
 $(docker exec postgres pg_dump -U vietbot -d vietbot_ai --schema-only 2>/dev/null || echo "Schema not available")
 \`\`\`
 EOF
 
 # 5. NETWORK INFO
-cat > NETWORK.md << 'EOF'
-# Network Configuration
+cat > NETWORK.md << EOF
+# Network Configuration - $NOW
+
 ## Docker Networks:
 \`\`\`
 $(docker network ls)
@@ -109,7 +103,7 @@ EOF
 
 # Git operations
 git add -A
-git commit -m "Auto $(date +%H:%M:%S)" -q || true
+git commit -m "Auto backup $NOW" -q || true
 git push -q || echo "Push failed"
 
-echo "[$(date +%H:%M:%S)] Backup completed"	
+echo "[$(date +%H:%M:%S)] Backup completed"

@@ -1,4 +1,4 @@
-# Database Schema - $(date)
-\`\`\`sql
-$(docker exec postgres pg_dump -U vietbot -d vietbot_ai --schema-only 2>/dev/null || echo "Schema not available")
-\`\`\`
+# Database Schema - 2025-07-12 13:16:55
+```sql
+Schema not available
+```

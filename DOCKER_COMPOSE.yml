@@ -1,2 +1,263 @@
-# Current Docker Compose Configuration
-$(cat /opt/vietbot/docker-compose.yml)
+# Docker Compose Configuration - 2025-07-12 13:16:55
+version: '3.8'
+
+networks:
+  vietbot_network:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: vietbot_postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/init-database.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    networks:
+      - vietbot_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: vietbot_redis
+    command: redis-server --appendonly yes --appendfsync everysec
+    volumes:
+      - redis_data:/data
+    networks:
+      - vietbot_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  n8n:
+    image: docker.io/n8nio/n8n:1.71.3
+    container_name: vietbot_n8n
+    environment:
+      - N8N_WEBHOOK_URL=https://$DOMAIN
+      - WEBHOOK_URL=https://$DOMAIN
+      - N8N_EDITOR_BASE_URL=https://$DOMAIN
+      - N8N_HOST=${DOMAIN}
+      - N8N_PROTOCOL=https
+      - N8N_PORT=5678
+      - N8N_AI_ENABLED=true
+      - N8N_EVALUATIONS_ENABLED=true
+      - N8N_VERSION_CONTROL_ENABLED=true
+      - N8N_TEMPLATES_ENABLED=true
+      - N8N_COMMUNITY_PACKAGE_ENABLED=true
+      - N8N_LOG_LEVEL=debug
+      - N8N_LOG_OUTPUT=console,file
+      - N8N_LOG_FILE=/home/node/.n8n/logs/n8n.log
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=all
+      - EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS=true
+      - EXECUTIONS_DATA_PRUNE=true
+      - EXECUTIONS_DATA_MAX_AGE=336
+      - DB_LOGGING_ENABLED=true
+      - N8N_FRONTEND_LOGGING=true
+      - N8N_DIAGNOSTICS_ENABLED=true
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      - N8N_SECURE_COOKIE=false
+      - N8N_COOKIE_SAME_SITE_POLICY=lax
+      - N8N_USER_MANAGEMENT_DISABLED=false
+      - N8N_METRICS=true
+      - NODE_ENV=production
+      - FB_PAGE_TOKEN=${FB_PAGE_TOKEN}
+      - FB_VERIFY_TOKEN=${FB_VERIFY_TOKEN}
+      - FB_APP_SECRET=${FB_APP_SECRET}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - UPLOADS_BASE_URL=https://${DOMAIN}/uploads
+    ports:
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./images:/opt/vietbot/images
+      - ./uploads:/uploads
+      - ./workflows:/workflows
+      - ./logs:/home/node/.n8n/logs
+    networks:
+      - vietbot_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5678/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: vietbot_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@${DOMAIN}
+      - PGADMIN_DEFAULT_PASSWORD=${ADMIN_PASSWORD}
+      - PGADMIN_CONFIG_SERVER_MODE=True
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - vietbot_network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: vietbot_redisinsight
+    user: root
+    ports:
+      - "8002:8001"
+    volumes:
+      - redisinsight_data:/db
+    networks:
+      - vietbot_network
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: vietbot_portainer
+    command: -H unix:///var/run/docker.sock
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - vietbot_network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: vietbot_grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - vietbot_network
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: vietbot_prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - vietbot_network
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: vietbot_node_exporter
+    ports:
+      - "127.0.0.1:9100:9100"
+    networks:
+      - vietbot_network
+    restart: unless-stopped
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: vietbot_postgres_exporter
+    environment:
+      - DATA_SOURCE_NAME=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable
+    ports:
+      - "127.0.0.1:9187:9187"
+    networks:
+      - vietbot_network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: vietbot_redis_exporter
+    environment:
+      - REDIS_ADDR=redis://redis:6379
+    ports:
+      - "127.0.0.1:9121:9121"
+    networks:
+      - vietbot_network
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: vietbot_dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    networks:
+      - vietbot_network
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: vietbot_caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2019:2019"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./images:/opt/vietbot/images:ro
+      - ./uploads:/opt/vietbot/uploads:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - vietbot_network
+    depends_on:
+      - n8n
+      - pgadmin
+      - redisinsight
+      - portainer
+      - grafana
+      - dozzle
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  n8n_data:
+  pgadmin_data:
+  redisinsight_data:
+  portainer_data:
+  grafana_data:
+  prometheus_data:
+  caddy_data:
+  caddy_config:
