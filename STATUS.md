@@ -1,10 +1,10 @@
-# VietBot Live Status - 2025-07-12 13:33:01
+# VietBot Live Status - 2025-07-12 13:34:01
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 2 days, 3 hours, 19 minutes
+- Uptime: up 2 days, 3 hours, 20 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
@@ -31,18 +31,18 @@ vietbot_node_exporter       Up 2 days               127.0.0.1:9100->9100/tcp
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
 vietbot_caddy               0.03%     13.8MiB / 3.82GiB
-vietbot_pgadmin             0.04%     230.5MiB / 3.82GiB
-vietbot_n8n                 0.79%     166.6MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     7.793MiB / 3.82GiB
+vietbot_pgadmin             0.05%     230.5MiB / 3.82GiB
+vietbot_n8n                 0.85%     166.8MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     8.18MiB / 3.82GiB
 vietbot_redisinsight        0.00%     96.66MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     9.555MiB / 3.82GiB
-vietbot_prometheus          0.00%     40.41MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     9.582MiB / 3.82GiB
+vietbot_prometheus          0.00%     40.31MiB / 3.82GiB
 vietbot_dozzle              0.00%     11.29MiB / 3.82GiB
-vietbot_grafana             0.21%     76.62MiB / 3.82GiB
-vietbot_postgres            0.00%     30.29MiB / 3.82GiB
+vietbot_grafana             0.27%     76.63MiB / 3.82GiB
+vietbot_postgres            0.05%     30.29MiB / 3.82GiB
 vietbot_portainer           0.00%     10.68MiB / 3.82GiB
-vietbot_redis               0.65%     3.23MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.191MiB / 3.82GiB
+vietbot_redis               0.76%     3.23MiB / 3.82GiB
+vietbot_node_exporter       0.00%     9.199MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -88,7 +88,7 @@ drwxr-xr-x  2 root root  4096 Jul 10 10:46 config
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 images
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 logs
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 prometheus
-drwxr-xr-x  4 root root  4096 Jul 12 13:16 realtime-backup
+drwxr-xr-x  4 root root  4096 Jul 12 13:33 realtime-backup
 -rw-r--r--  1 root root 19635 Jul  9 18:15 schema.sql
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 scripts
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 uploads
