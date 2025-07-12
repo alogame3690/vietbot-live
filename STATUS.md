@@ -1,10 +1,10 @@
-# VietBot Live Status - 2025-07-12 14:39:01
+# VietBot Live Status - 2025-07-12 14:40:01
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 2 days, 4 hours, 25 minutes
+- Uptime: up 2 days, 4 hours, 26 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
@@ -30,18 +30,18 @@ vietbot_node_exporter       Up 2 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.04%     13.84MiB / 3.82GiB
-vietbot_pgadmin             0.04%     230.5MiB / 3.82GiB
-vietbot_n8n                 0.75%     171.4MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     7.695MiB / 3.82GiB
+vietbot_caddy               0.02%     13.84MiB / 3.82GiB
+vietbot_pgadmin             0.03%     230.5MiB / 3.82GiB
+vietbot_n8n                 0.74%     170.8MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.387MiB / 3.82GiB
 vietbot_redisinsight        0.00%     96.73MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     8.023MiB / 3.82GiB
-vietbot_prometheus          0.00%     38.52MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     8.98MiB / 3.82GiB
+vietbot_prometheus          0.00%     38.53MiB / 3.82GiB
 vietbot_dozzle              0.00%     11.3MiB / 3.82GiB
-vietbot_grafana             0.25%     76.49MiB / 3.82GiB
+vietbot_grafana             0.23%     76.49MiB / 3.82GiB
 vietbot_postgres            0.00%     30.34MiB / 3.82GiB
 vietbot_portainer           0.00%     10.68MiB / 3.82GiB
-vietbot_redis               0.67%     3.23MiB / 3.82GiB
+vietbot_redis               0.56%     3.23MiB / 3.82GiB
 vietbot_node_exporter       0.00%     9.191MiB / 3.82GiB
 ```
 
