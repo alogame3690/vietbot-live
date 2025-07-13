@@ -1,541 +1,1003 @@
-# VietBot Database Schema - 
-
-## Database Info
+# Database Schema - 2025-07-13 20:38:10
 ```sql
-                                         version                                          
-------------------------------------------------------------------------------------------
- PostgreSQL 15.13 on x86_64-pc-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit
-(1 row)
- db_size  
-----------
- 10433327
-(1 row)
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.13
+-- Dumped by pg_dump version 15.13
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
+--
+-- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: vietbot
+--
+
+CREATE FUNCTION public.update_updated_at_column() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.update_updated_at_column() OWNER TO vietbot;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.customers (
+    id integer NOT NULL,
+    fb_user_id character varying(50) NOT NULL,
+    name character varying(100),
+    phone character varying(20),
+    email character varying(100),
+    address text,
+    note text,
+    tags text[],
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.customers OWNER TO vietbot;
+
+--
+-- Name: sessions; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.sessions (
+    id integer NOT NULL,
+    customer_id integer,
+    session_id character varying(100) NOT NULL,
+    started_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    ended_at timestamp without time zone,
+    status character varying(20) DEFAULT 'active'::character varying,
+    metadata jsonb
+);
+
+
+ALTER TABLE public.sessions OWNER TO vietbot;
+
+--
+-- Name: active_sessions; Type: VIEW; Schema: public; Owner: vietbot
+--
+
+CREATE VIEW public.active_sessions AS
+ SELECT s.id,
+    s.customer_id,
+    s.session_id,
+    s.started_at,
+    s.ended_at,
+    s.status,
+    s.metadata,
+    c.name AS customer_name,
+    c.fb_user_id
+   FROM (public.sessions s
+     JOIN public.customers c ON ((s.customer_id = c.id)))
+  WHERE ((s.status)::text = 'active'::text);
+
+
+ALTER TABLE public.active_sessions OWNER TO vietbot;
+
+--
+-- Name: analytics; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.analytics (
+    id integer NOT NULL,
+    metric_name character varying(100) NOT NULL,
+    metric_value jsonb,
+    date date DEFAULT CURRENT_DATE,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.analytics OWNER TO vietbot;
+
+--
+-- Name: analytics_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.analytics_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.analytics_id_seq OWNER TO vietbot;
+
+--
+-- Name: analytics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.analytics_id_seq OWNED BY public.analytics.id;
+
+
+--
+-- Name: annotation_tag_entity; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.annotation_tag_entity (
+    id character varying(16) NOT NULL,
+    name character varying(24) NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.annotation_tag_entity OWNER TO vietbot;
+
+--
+-- Name: auth_identity; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.auth_identity (
+    "userId" uuid,
+    "providerId" character varying(64) NOT NULL,
+    "providerType" character varying(32) NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.auth_identity OWNER TO vietbot;
+
+--
+-- Name: auth_provider_sync_history; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.auth_provider_sync_history (
+    id integer NOT NULL,
+    "providerType" character varying(32) NOT NULL,
+    "runMode" text NOT NULL,
+    status text NOT NULL,
+    "startedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "endedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    scanned integer NOT NULL,
+    created integer NOT NULL,
+    updated integer NOT NULL,
+    disabled integer NOT NULL,
+    error text
+);
+
+
+ALTER TABLE public.auth_provider_sync_history OWNER TO vietbot;
+
+--
+-- Name: auth_provider_sync_history_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.auth_provider_sync_history_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_provider_sync_history_id_seq OWNER TO vietbot;
+
+--
+-- Name: auth_provider_sync_history_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.auth_provider_sync_history_id_seq OWNED BY public.auth_provider_sync_history.id;
+
+
+--
+-- Name: conversations; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.conversations (
+    id integer NOT NULL,
+    session_id integer,
+    message_id character varying(100),
+    sender_type character varying(20) NOT NULL,
+    message_text text,
+    intent character varying(50),
+    context jsonb,
+    "timestamp" timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.conversations OWNER TO vietbot;
+
+--
+-- Name: conversations_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.conversations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.conversations_id_seq OWNER TO vietbot;
+
+--
+-- Name: conversations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.conversations_id_seq OWNED BY public.conversations.id;
+
+
+--
+-- Name: credentials_entity; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.credentials_entity (
+    name character varying(128) NOT NULL,
+    data text NOT NULL,
+    type character varying(128) NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    id character varying(36) NOT NULL
+);
+
+
+ALTER TABLE public.credentials_entity OWNER TO vietbot;
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.customers_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customers_id_seq OWNER TO vietbot;
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
+
+
+--
+-- Name: escalations; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.escalations (
+    id integer NOT NULL,
+    conversation_id integer,
+    reason character varying(200),
+    assigned_to character varying(100),
+    status character varying(50) DEFAULT 'open'::character varying,
+    resolved_at timestamp without time zone,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.escalations OWNER TO vietbot;
+
+--
+-- Name: escalations_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.escalations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.escalations_id_seq OWNER TO vietbot;
+
+--
+-- Name: escalations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.escalations_id_seq OWNED BY public.escalations.id;
+
+
+--
+-- Name: event_destinations; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.event_destinations (
+    id uuid NOT NULL,
+    destination jsonb NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.event_destinations OWNER TO vietbot;
+
+--
+-- Name: execution_annotation_tags; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.execution_annotation_tags (
+    "annotationId" integer NOT NULL,
+    "tagId" character varying(24) NOT NULL
+);
+
+
+ALTER TABLE public.execution_annotation_tags OWNER TO vietbot;
+
+--
+-- Name: execution_annotations; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.execution_annotations (
+    id integer NOT NULL,
+    "executionId" integer NOT NULL,
+    vote character varying(6),
+    note text,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.execution_annotations OWNER TO vietbot;
+
+--
+-- Name: execution_annotations_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.execution_annotations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.execution_annotations_id_seq OWNER TO vietbot;
+
+--
+-- Name: execution_annotations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.execution_annotations_id_seq OWNED BY public.execution_annotations.id;
+
+
+--
+-- Name: execution_data; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.execution_data (
+    "executionId" integer NOT NULL,
+    "workflowData" json NOT NULL,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.execution_data OWNER TO vietbot;
+
+--
+-- Name: execution_entity; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.execution_entity (
+    id integer NOT NULL,
+    finished boolean NOT NULL,
+    mode character varying NOT NULL,
+    "retryOf" character varying,
+    "retrySuccessId" character varying,
+    "startedAt" timestamp(3) with time zone,
+    "stoppedAt" timestamp(3) with time zone,
+    "waitTill" timestamp(3) with time zone,
+    status character varying NOT NULL,
+    "workflowId" character varying(36) NOT NULL,
+    "deletedAt" timestamp(3) with time zone,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.execution_entity OWNER TO vietbot;
+
+--
+-- Name: execution_entity_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.execution_entity_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.execution_entity_id_seq OWNER TO vietbot;
+
+--
+-- Name: execution_entity_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.execution_entity_id_seq OWNED BY public.execution_entity.id;
+
+
+--
+-- Name: execution_metadata; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.execution_metadata (
+    id integer NOT NULL,
+    "executionId" integer NOT NULL,
+    key character varying(255) NOT NULL,
+    value text NOT NULL
+);
+
+
+ALTER TABLE public.execution_metadata OWNER TO vietbot;
+
+--
+-- Name: execution_metadata_temp_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.execution_metadata_temp_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.execution_metadata_temp_id_seq OWNER TO vietbot;
+
+--
+-- Name: execution_metadata_temp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.execution_metadata_temp_id_seq OWNED BY public.execution_metadata.id;
+
+
+--
+-- Name: faq; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.faq (
+    id integer NOT NULL,
+    question text NOT NULL,
+    answer text NOT NULL,
+    category character varying(100),
+    keywords text[],
+    view_count integer DEFAULT 0,
+    active boolean DEFAULT true
+);
+
+
+ALTER TABLE public.faq OWNER TO vietbot;
+
+--
+-- Name: faq_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.faq_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.faq_id_seq OWNER TO vietbot;
+
+--
+-- Name: faq_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.faq_id_seq OWNED BY public.faq.id;
+
+
+--
+-- Name: installed_nodes; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.installed_nodes (
+    name character varying(200) NOT NULL,
+    type character varying(200) NOT NULL,
+    "latestVersion" integer DEFAULT 1 NOT NULL,
+    package character varying(241) NOT NULL
+);
+
+
+ALTER TABLE public.installed_nodes OWNER TO vietbot;
+
+--
+-- Name: installed_packages; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.installed_packages (
+    "packageName" character varying(214) NOT NULL,
+    "installedVersion" character varying(50) NOT NULL,
+    "authorName" character varying(70),
+    "authorEmail" character varying(70),
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.installed_packages OWNER TO vietbot;
+
+--
+-- Name: intents; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.intents (
+    id integer NOT NULL,
+    intent_name character varying(50) NOT NULL,
+    description text,
+    keywords text[],
+    response_template text,
+    active boolean DEFAULT true
+);
+
+
+ALTER TABLE public.intents OWNER TO vietbot;
+
+--
+-- Name: intents_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.intents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.intents_id_seq OWNER TO vietbot;
+
+--
+-- Name: intents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.intents_id_seq OWNED BY public.intents.id;
+
+
+--
+-- Name: invalid_auth_token; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.invalid_auth_token (
+    token character varying(512) NOT NULL,
+    "expiresAt" timestamp(3) with time zone NOT NULL
+);
+
+
+ALTER TABLE public.invalid_auth_token OWNER TO vietbot;
+
+--
+-- Name: message_queue; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.message_queue (
+    id integer NOT NULL,
+    fb_message_id character varying(100) NOT NULL,
+    customer_id integer,
+    message_text text,
+    status character varying(20) DEFAULT 'pending'::character varying,
+    retry_count integer DEFAULT 0,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    processed_at timestamp without time zone
+);
+
+
+ALTER TABLE public.message_queue OWNER TO vietbot;
+
+--
+-- Name: message_queue_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.message_queue_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.message_queue_id_seq OWNER TO vietbot;
+
+--
+-- Name: message_queue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.message_queue_id_seq OWNED BY public.message_queue.id;
+
+
+--
+-- Name: migrations; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.migrations (
+    id integer NOT NULL,
+    "timestamp" bigint NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.migrations OWNER TO vietbot;
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.migrations_id_seq OWNER TO vietbot;
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
+
+
+--
+-- Name: order_items; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.order_items (
+    id integer NOT NULL,
+    order_id integer,
+    product_id integer,
+    quantity integer NOT NULL,
+    unit_price numeric(10,2),
+    subtotal numeric(10,2)
+);
+
+
+ALTER TABLE public.order_items OWNER TO vietbot;
+
+--
+-- Name: order_items_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.order_items_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.order_items_id_seq OWNER TO vietbot;
+
+--
+-- Name: order_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.order_items_id_seq OWNED BY public.order_items.id;
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.orders (
+    id integer NOT NULL,
+    customer_id integer,
+    order_number character varying(50) NOT NULL,
+    status character varying(50) DEFAULT 'pending'::character varying,
+    total_amount numeric(10,2),
+    shipping_address text,
+    note text,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.orders OWNER TO vietbot;
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.orders_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orders_id_seq OWNER TO vietbot;
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
+
+
+--
+-- Name: processed_data; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.processed_data (
+    "workflowId" character varying(36) NOT NULL,
+    context character varying(255) NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    value text NOT NULL
+);
+
+
+ALTER TABLE public.processed_data OWNER TO vietbot;
+
+--
+-- Name: products; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.products (
+    id integer NOT NULL,
+    sku character varying(50) NOT NULL,
+    name character varying(200) NOT NULL,
+    description text,
+    price numeric(10,2),
+    stock_quantity integer DEFAULT 0,
+    category character varying(100),
+    tags text[],
+    image_url character varying(500),
+    active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.products OWNER TO vietbot;
+
+--
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.products_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.products_id_seq OWNER TO vietbot;
+
+--
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
+-- Name: project; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.project (
+    id character varying(36) NOT NULL,
+    name character varying(255) NOT NULL,
+    type character varying(36) NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.project OWNER TO vietbot;
+
+--
+-- Name: project_relation; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.project_relation (
+    "projectId" character varying(36) NOT NULL,
+    "userId" uuid NOT NULL,
+    role character varying NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.project_relation OWNER TO vietbot;
+
+--
+-- Name: recent_orders; Type: VIEW; Schema: public; Owner: vietbot
+--
+
+CREATE VIEW public.recent_orders AS
+ SELECT o.id,
+    o.customer_id,
+    o.order_number,
+    o.status,
+    o.total_amount,
+    o.shipping_address,
+    o.note,
+    o.created_at,
+    o.updated_at,
+    c.name AS customer_name,
+    c.phone AS customer_phone
+   FROM (public.orders o
+     JOIN public.customers c ON ((o.customer_id = c.id)))
+  WHERE (o.created_at > (CURRENT_DATE - '30 days'::interval))
+  ORDER BY o.created_at DESC;
+
+
+ALTER TABLE public.recent_orders OWNER TO vietbot;
+
+--
+-- Name: role; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.role (
+    id integer NOT NULL,
+    name character varying(32) NOT NULL,
+    scope character varying(255) NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.role OWNER TO vietbot;
+
+--
+-- Name: role_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.role_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.role_id_seq OWNER TO vietbot;
+
+--
+-- Name: role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.role_id_seq OWNED BY public.role.id;
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
+CREATE SEQUENCE public.sessions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sessions_id_seq OWNER TO vietbot;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vietbot
+--
+
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
+-- Name: settings; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.settings (
+    key character varying(255) NOT NULL,
+    value text NOT NULL,
+    "loadOnStartup" boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.settings OWNER TO vietbot;
+
+--
+-- Name: shared_credentials; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.shared_credentials (
+    "credentialsId" character varying(36) NOT NULL,
+    "projectId" character varying(36) NOT NULL,
+    role text NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.shared_credentials OWNER TO vietbot;
+
+--
+-- Name: shared_workflow; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.shared_workflow (
+    "workflowId" character varying(36) NOT NULL,
+    "projectId" character varying(36) NOT NULL,
+    role text NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT CURRENT_TIMESTAMP(3) NOT NULL
+);
+
+
+ALTER TABLE public.shared_workflow OWNER TO vietbot;
+
+--
+-- Name: system_config; Type: TABLE; Schema: public; Owner: vietbot
+--
+
+CREATE TABLE public.system_config (
+    id integer NOT NULL,
+    config_key character varying(100) NOT NULL,
+    config_value jsonb,
+    description text,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.system_config OWNER TO vietbot;
+
+--
+-- Name: system_config_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
+--
+
 ```
-
-## Tables Overview
-```sql
-                                               List of relations
- Schema |            Name            | Type  |  Owner  | Persistence | Access method |    Size    | Description 
---------+----------------------------+-------+---------+-------------+---------------+------------+-------------
- public | analytics                  | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | annotation_tag_entity      | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | auth_identity              | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | auth_provider_sync_history | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | conversations              | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | credentials_entity         | table | vietbot | permanent   | heap          | 16 kB      | 
- public | customers                  | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | escalations                | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | event_destinations         | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | execution_annotation_tags  | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | execution_annotations      | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | execution_data             | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | execution_entity           | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | execution_metadata         | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | faq                        | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | installed_nodes            | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | installed_packages         | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | intents                    | table | vietbot | permanent   | heap          | 16 kB      | 
- public | invalid_auth_token         | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | message_queue              | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | migrations                 | table | vietbot | permanent   | heap          | 16 kB      | 
- public | order_items                | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | orders                     | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | processed_data             | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | products                   | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | project                    | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | project_relation           | table | vietbot | permanent   | heap          | 16 kB      | 
- public | role                       | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | sessions                   | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | settings                   | table | vietbot | permanent   | heap          | 16 kB      | 
- public | shared_credentials         | table | vietbot | permanent   | heap          | 16 kB      | 
- public | shared_workflow            | table | vietbot | permanent   | heap          | 16 kB      | 
- public | system_config              | table | vietbot | permanent   | heap          | 16 kB      | 
- public | tag_entity                 | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | test_definition            | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | test_metric                | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | test_run                   | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | user                       | table | vietbot | permanent   | heap          | 16 kB      | 
- public | user_api_keys              | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | variables                  | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | webhook_entity             | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | workflow_entity            | table | vietbot | permanent   | heap          | 88 kB      | 
- public | workflow_history           | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | workflow_statistics        | table | vietbot | permanent   | heap          | 0 bytes    | 
- public | workflows_tags             | table | vietbot | permanent   | heap          | 0 bytes    | 
-(45 rows)
-```
-
-## Indexes
-```sql
-                                             List of relations
- Schema |                       Name                        | Type  |  Owner  |           Table            
---------+---------------------------------------------------+-------+---------+----------------------------
- public | IDX_1e31657f5fe46816c34be7c1b4                    | index | vietbot | workflow_history
- public | IDX_1ef35bac35d20bdae979d917a3                    | index | vietbot | user_api_keys
- public | IDX_3a4e9cf37111ac3270e2469b47                    | index | vietbot | test_metric
- public | IDX_3a81713a76f2295b12b46cdfca                    | index | vietbot | test_run
- public | IDX_5f0643f6717905a05164090dde                    | index | vietbot | project_relation
- public | IDX_61448d56d61802b5dfde5cdb00                    | index | vietbot | project_relation
- public | IDX_63d7bbae72c767cf162d459fcc                    | index | vietbot | user_api_keys
- public | IDX_97f863fa83c4786f1956508496                    | index | vietbot | execution_annotations
- public | IDX_9ec1ce6fbf82305f489adb971d                    | index | vietbot | test_definition
- public | IDX_a3697779b366e131b2bbdae297                    | index | vietbot | execution_annotation_tags
- public | IDX_ae51b54c4bb430cf92f48b623f                    | index | vietbot | annotation_tag_entity
- public | IDX_b0dd0087fe3da02b0ffa4b9c5b                    | index | vietbot | test_definition
- public | IDX_c1519757391996eb06064f0e7c                    | index | vietbot | execution_annotation_tags
- public | IDX_cec8eea3bf49551482ccb4933e                    | index | vietbot | execution_metadata
- public | IDX_execution_entity_deletedAt                    | index | vietbot | execution_entity
- public | IDX_workflow_entity_name                          | index | vietbot | workflow_entity
- public | PK_011c050f566e9db509a0fadb9b9                    | index | vietbot | test_run
- public | PK_08cc9197c39b028c1e9beca225940576fd1a5804       | index | vietbot | installed_packages
- public | PK_17a0b6284f8d626aae88e1c16e4                    | index | vietbot | execution_metadata
- public | PK_1caaa312a5d7184a003be0f0cb6                    | index | vietbot | project_relation
- public | PK_3e98b8e20acc19c5030a8644142                    | index | vietbot | test_metric
- public | PK_4d68b1358bb5b766d3e78f32f57                    | index | vietbot | project
- public | PK_5779069b7235b256d91f7af1a15                    | index | vietbot | invalid_auth_token
- public | PK_5ba87620386b847201c9531c58f                    | index | vietbot | shared_workflow
- public | PK_69dfa041592c30bbc0d4b84aa00                    | index | vietbot | annotation_tag_entity
- public | PK_7afcf93ffa20c4252869a7c6a23                    | index | vietbot | execution_annotations
- public | PK_8c82d7f526340ab734260ea46be                    | index | vietbot | migrations
- public | PK_8ebd28194e4f792f96b5933423fc439df97d9689       | index | vietbot | installed_nodes
- public | PK_8ef3a59796a228913f251779cff                    | index | vietbot | shared_credentials
- public | PK_978fa5caa3468f463dac9d92e69                    | index | vietbot | user_api_keys
- public | PK_979ec03d31294cca484be65d11f                    | index | vietbot | execution_annotation_tags
- public | PK_b21ace2e13596ccd87dc9bf4ea6                    | index | vietbot | webhook_entity
- public | PK_b6572dd6173e4cd06fe79937b58                    | index | vietbot | workflow_history
- public | PK_ca04b9d8dc72de268fe07a65773                    | index | vietbot | processed_data
- public | PK_dc0fe14e6d9943f268e7b119f69ab8bd               | index | vietbot | settings
- public | PK_e853ce24e8200abe5721d2c6ac552b73               | index | vietbot | role
- public | PK_ea8f538c94b6e352418254ed6474a81f               | index | vietbot | user
- public | UQ_5b49d0f504f7ef31045a1fb2eb8                    | index | vietbot | role
- public | UQ_e12875dfb3b1d92d7d7c5377e2                     | index | vietbot | user
- public | analytics_pkey                                    | index | vietbot | analytics
- public | auth_identity_pkey                                | index | vietbot | auth_identity
- public | auth_provider_sync_history_pkey                   | index | vietbot | auth_provider_sync_history
- public | conversations_message_id_key                      | index | vietbot | conversations
- public | conversations_pkey                                | index | vietbot | conversations
- public | credentials_entity_pkey                           | index | vietbot | credentials_entity
- public | customers_fb_user_id_key                          | index | vietbot | customers
- public | customers_pkey                                    | index | vietbot | customers
- public | escalations_pkey                                  | index | vietbot | escalations
- public | event_destinations_pkey                           | index | vietbot | event_destinations
- public | execution_data_pkey                               | index | vietbot | execution_data
- public | faq_pkey                                          | index | vietbot | faq
- public | idx_07fde106c0b471d8cc80a64fc8                    | index | vietbot | credentials_entity
- public | idx_16f4436789e804e3e1c9eeb240                    | index | vietbot | webhook_entity
- public | idx_812eb05f7451ca757fb98444ce                    | index | vietbot | tag_entity
- public | idx_conversations_intent                          | index | vietbot | conversations
- public | idx_conversations_session_id                      | index | vietbot | conversations
- public | idx_customers_fb_user_id                          | index | vietbot | customers
- public | idx_escalations_status                            | index | vietbot | escalations
- public | idx_execution_entity_stopped_at_status_deleted_at | index | vietbot | execution_entity
- public | idx_execution_entity_wait_till_status_deleted_at  | index | vietbot | execution_entity
- public | idx_execution_entity_workflow_id_started_at       | index | vietbot | execution_entity
- public | idx_message_queue_customer_id                     | index | vietbot | message_queue
- public | idx_message_queue_status                          | index | vietbot | message_queue
- public | idx_orders_customer_id                            | index | vietbot | orders
- public | idx_orders_status                                 | index | vietbot | orders
- public | idx_products_active                               | index | vietbot | products
- public | idx_products_category                             | index | vietbot | products
- public | idx_sessions_customer_id                          | index | vietbot | sessions
- public | idx_sessions_status                               | index | vietbot | sessions
- public | idx_workflows_tags_workflow_id                    | index | vietbot | workflows_tags
- public | intents_intent_name_key                           | index | vietbot | intents
- public | intents_pkey                                      | index | vietbot | intents
- public | message_queue_fb_message_id_key                   | index | vietbot | message_queue
- public | message_queue_pkey                                | index | vietbot | message_queue
- public | order_items_pkey                                  | index | vietbot | order_items
- public | orders_order_number_key                           | index | vietbot | orders
- public | orders_pkey                                       | index | vietbot | orders
- public | pk_credentials_entity_id                          | index | vietbot | credentials_entity
- public | pk_e3e63bbf986767844bbe1166d4e                    | index | vietbot | execution_entity
- public | pk_tag_entity_id                                  | index | vietbot | tag_entity
- public | pk_test_definition_id                             | index | vietbot | test_definition
- public | pk_variables_id                                   | index | vietbot | variables
- public | pk_workflow_entity_id                             | index | vietbot | workflow_entity
- public | pk_workflow_statistics                            | index | vietbot | workflow_statistics
- public | pk_workflows_tags                                 | index | vietbot | workflows_tags
- public | products_pkey                                     | index | vietbot | products
- public | products_sku_key                                  | index | vietbot | products
- public | sessions_pkey                                     | index | vietbot | sessions
- public | sessions_session_id_key                           | index | vietbot | sessions
- public | system_config_config_key_key                      | index | vietbot | system_config
- public | system_config_pkey                                | index | vietbot | system_config
- public | tag_entity_pkey                                   | index | vietbot | tag_entity
- public | test_definition_pkey                              | index | vietbot | test_definition
- public | variables_key_key                                 | index | vietbot | variables
- public | variables_pkey                                    | index | vietbot | variables
- public | workflow_entity_pkey                              | index | vietbot | workflow_entity
-(96 rows)
-```
-
-## Table Details & Sample Data
-
-### 📊 Table: customers
-#### Schema:
-```sql
-                                                                   Table "public.customers"
-   Column   |            Type             | Collation | Nullable |                Default                | Storage  | Compression | Stats target | Description 
-------------+-----------------------------+-----------+----------+---------------------------------------+----------+-------------+--------------+-------------
- id         | integer                     |           | not null | nextval('customers_id_seq'::regclass) | plain    |             |              | 
- fb_user_id | character varying(50)       |           | not null |                                       | extended |             |              | 
- name       | character varying(100)      |           |          |                                       | extended |             |              | 
- phone      | character varying(20)       |           |          |                                       | extended |             |              | 
- email      | character varying(100)      |           |          |                                       | extended |             |              | 
- address    | text                        |           |          |                                       | extended |             |              | 
- note       | text                        |           |          |                                       | extended |             |              | 
- tags       | text[]                      |           |          |                                       | extended |             |              | 
- created_at | timestamp without time zone |           |          | CURRENT_TIMESTAMP                     | plain    |             |              | 
- updated_at | timestamp without time zone |           |          | CURRENT_TIMESTAMP                     | plain    |             |              | 
-Indexes:
-    "customers_pkey" PRIMARY KEY, btree (id)
-    "customers_fb_user_id_key" UNIQUE CONSTRAINT, btree (fb_user_id)
-    "idx_customers_fb_user_id" btree (fb_user_id)
-Referenced by:
-    TABLE "message_queue" CONSTRAINT "message_queue_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
-    TABLE "orders" CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
-    TABLE "sessions" CONSTRAINT "sessions_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
-Triggers:
-    update_customers_updated_at BEFORE UPDATE ON customers FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
-Access method: heap
-
-```
-
-#### Row Count:
-```sql
- total_rows 
-------------
-          0
-(1 row)
-
-```
-
-#### Sample Data (First 5 rows):
-```sql
- id | fb_user_id | name | phone | email | address | note | tags | created_at | updated_at 
-----+------------+------+-------+-------+---------+------+------+------------+------------
-(0 rows)
-
-```
-
-
-### 📊 Table: conversations
-#### Schema:
-```sql
-                                                                    Table "public.conversations"
-    Column    |            Type             | Collation | Nullable |                  Default                  | Storage  | Compression | Stats target | Description 
---------------+-----------------------------+-----------+----------+-------------------------------------------+----------+-------------+--------------+-------------
- id           | integer                     |           | not null | nextval('conversations_id_seq'::regclass) | plain    |             |              | 
- session_id   | integer                     |           |          |                                           | plain    |             |              | 
- message_id   | character varying(100)      |           |          |                                           | extended |             |              | 
- sender_type  | character varying(20)       |           | not null |                                           | extended |             |              | 
- message_text | text                        |           |          |                                           | extended |             |              | 
- intent       | character varying(50)       |           |          |                                           | extended |             |              | 
- context      | jsonb                       |           |          |                                           | extended |             |              | 
- timestamp    | timestamp without time zone |           |          | CURRENT_TIMESTAMP                         | plain    |             |              | 
-Indexes:
-    "conversations_pkey" PRIMARY KEY, btree (id)
-    "conversations_message_id_key" UNIQUE CONSTRAINT, btree (message_id)
-    "idx_conversations_intent" btree (intent)
-    "idx_conversations_session_id" btree (session_id)
-Foreign-key constraints:
-    "conversations_session_id_fkey" FOREIGN KEY (session_id) REFERENCES sessions(id)
-Referenced by:
-    TABLE "escalations" CONSTRAINT "escalations_conversation_id_fkey" FOREIGN KEY (conversation_id) REFERENCES conversations(id)
-Access method: heap
-
-```
-
-#### Row Count:
-```sql
- total_rows 
-------------
-          0
-(1 row)
-
-```
-
-#### Sample Data (First 5 rows):
-```sql
- id | session_id | message_id | sender_type | message_text | intent | context | timestamp 
-----+------------+------------+-------------+--------------+--------+---------+-----------
-(0 rows)
-
-```
-
-
-### 📊 Table: messages
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: workflow_executions
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: session_states
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: orders
-#### Schema:
-```sql
-                                                                      Table "public.orders"
-      Column      |            Type             | Collation | Nullable |              Default               | Storage  | Compression | Stats target | Description 
-------------------+-----------------------------+-----------+----------+------------------------------------+----------+-------------+--------------+-------------
- id               | integer                     |           | not null | nextval('orders_id_seq'::regclass) | plain    |             |              | 
- customer_id      | integer                     |           |          |                                    | plain    |             |              | 
- order_number     | character varying(50)       |           | not null |                                    | extended |             |              | 
- status           | character varying(50)       |           |          | 'pending'::character varying       | extended |             |              | 
- total_amount     | numeric(10,2)               |           |          |                                    | main     |             |              | 
- shipping_address | text                        |           |          |                                    | extended |             |              | 
- note             | text                        |           |          |                                    | extended |             |              | 
- created_at       | timestamp without time zone |           |          | CURRENT_TIMESTAMP                  | plain    |             |              | 
- updated_at       | timestamp without time zone |           |          | CURRENT_TIMESTAMP                  | plain    |             |              | 
-Indexes:
-    "orders_pkey" PRIMARY KEY, btree (id)
-    "idx_orders_customer_id" btree (customer_id)
-    "idx_orders_status" btree (status)
-    "orders_order_number_key" UNIQUE CONSTRAINT, btree (order_number)
-Foreign-key constraints:
-    "orders_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
-Referenced by:
-    TABLE "order_items" CONSTRAINT "order_items_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(id)
-Triggers:
-    update_orders_updated_at BEFORE UPDATE ON orders FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
-Access method: heap
-
-```
-
-#### Row Count:
-```sql
- total_rows 
-------------
-          0
-(1 row)
-
-```
-
-#### Sample Data (First 5 rows):
-```sql
- id | customer_id | order_number | status | total_amount | shipping_address | note | created_at | updated_at 
-----+-------------+--------------+--------+--------------+------------------+------+------------+------------
-(0 rows)
-
-```
-
-
-### 📊 Table: products
-#### Schema:
-```sql
-                                                                     Table "public.products"
-     Column     |            Type             | Collation | Nullable |               Default                | Storage  | Compression | Stats target | Description 
-----------------+-----------------------------+-----------+----------+--------------------------------------+----------+-------------+--------------+-------------
- id             | integer                     |           | not null | nextval('products_id_seq'::regclass) | plain    |             |              | 
- sku            | character varying(50)       |           | not null |                                      | extended |             |              | 
- name           | character varying(200)      |           | not null |                                      | extended |             |              | 
- description    | text                        |           |          |                                      | extended |             |              | 
- price          | numeric(10,2)               |           |          |                                      | main     |             |              | 
- stock_quantity | integer                     |           |          | 0                                    | plain    |             |              | 
- category       | character varying(100)      |           |          |                                      | extended |             |              | 
- tags           | text[]                      |           |          |                                      | extended |             |              | 
- image_url      | character varying(500)      |           |          |                                      | extended |             |              | 
- active         | boolean                     |           |          | true                                 | plain    |             |              | 
- created_at     | timestamp without time zone |           |          | CURRENT_TIMESTAMP                    | plain    |             |              | 
- updated_at     | timestamp without time zone |           |          | CURRENT_TIMESTAMP                    | plain    |             |              | 
-Indexes:
-    "products_pkey" PRIMARY KEY, btree (id)
-    "idx_products_active" btree (active)
-    "idx_products_category" btree (category)
-    "products_sku_key" UNIQUE CONSTRAINT, btree (sku)
-Referenced by:
-    TABLE "order_items" CONSTRAINT "order_items_product_id_fkey" FOREIGN KEY (product_id) REFERENCES products(id)
-Triggers:
-    update_products_updated_at BEFORE UPDATE ON products FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
-Access method: heap
-
-```
-
-#### Row Count:
-```sql
- total_rows 
-------------
-          0
-(1 row)
-
-```
-
-#### Sample Data (First 5 rows):
-```sql
- id | sku | name | description | price | stock_quantity | category | tags | image_url | active | created_at | updated_at 
-----+-----+------+-------------+-------+----------------+----------+------+-----------+--------+------------+------------
-(0 rows)
-
-```
-
-
-### 📊 Table: user_preferences
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: faq_items
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: analytics_events
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: error_logs
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: audit_logs
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: workflows
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: credentials
-#### Schema:
-```sql
-```
-
-#### Row Count:
-```sql
-```
-
-#### Sample Data (First 5 rows):
-```sql
-```
-
-
-### 📊 Table: webhook_entity
-#### Schema:
-```sql
-                                               Table "public.webhook_entity"
-   Column    |         Type          | Collation | Nullable | Default | Storage  | Compression | Stats target | Description 
--------------+-----------------------+-----------+----------+---------+----------+-------------+--------------+-------------
- webhookPath | character varying     |           | not null |         | extended |             |              | 
- method      | character varying     |           | not null |         | extended |             |              | 
- node        | character varying     |           | not null |         | extended |             |              | 
- webhookId   | character varying     |           |          |         | extended |             |              | 
- pathLength  | integer               |           |          |         | plain    |             |              | 
- workflowId  | character varying(36) |           | not null |         | extended |             |              | 
-Indexes:
-    "PK_b21ace2e13596ccd87dc9bf4ea6" PRIMARY KEY, btree ("webhookPath", method)
-    "idx_16f4436789e804e3e1c9eeb240" btree ("webhookId", method, "pathLength")
-Foreign-key constraints:
-    "fk_webhook_entity_workflow_id" FOREIGN KEY ("workflowId") REFERENCES workflow_entity(id) ON DELETE CASCADE
-Access method: heap
-
-```
-
-#### Row Count:
-```sql
- total_rows 
-------------
-          0
-(1 row)
-
-```
-
-#### Sample Data (First 5 rows):
-```sql
- webhookPath | method | node | webhookId | pathLength | workflowId 
--------------+--------+------+-----------+------------+------------
-(0 rows)
-
-```
-
