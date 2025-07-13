@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><title>VietBot Status</title></head>
+<head>
+    <title>VietBot Live Status</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60">
+    <style>
+        body { font-family: monospace; background: #1e1e1e; color: #00ff00; padding: 20px; }
+        pre { background: #0a0a0a; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .time { color: #ffff00; font-weight: bold; }
+    </style>
+</head>
 <body>
-<h1>VietBot Live Status</h1>
-<ul>
-<li><a href="STATUS.md">STATUS.md</a></li>
-<li><a href="DOCKER_COMPOSE.yml">DOCKER_COMPOSE.yml</a></li>
-<li><a href="DATABASE_SCHEMA.md">DATABASE_SCHEMA.md</a></li>
-<li><a href="NETWORK.md">NETWORK.md</a></li>
-</ul>
+    <h1>🤖 VietBot Live Status</h1>
+    <p class="time">Auto-refresh every 60 seconds | Last update: <span id="time"></span></p>
+    <pre id="status">Loading...</pre>
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString('vi-VN');
+        fetch('STATUS.md?t=' + Date.now())
+            .then(r => r.text())
+            .then(d => document.getElementById('status').textContent = d);
+    </script>
 </body>
 </html>
