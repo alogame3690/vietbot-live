@@ -1,14 +1,14 @@
-# VietBot Live Status - 2025-07-13 12:23:02
+# VietBot Live Status - 2025-07-13 12:24:02
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 3 days, 2 hours, 9 minutes
+- Uptime: up 3 days, 2 hours, 10 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.30, 0.39, 0.40
+- Load Average:  0.22, 0.35, 0.38
 
 ## 🐳 Docker Services
 ```
@@ -31,19 +31,19 @@ vietbot_node_exporter       Up 3 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.03%     14.07MiB / 3.82GiB
-vietbot_pgadmin             0.03%     230.6MiB / 3.82GiB
-vietbot_n8n                 0.70%     174.3MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     8.02MiB / 3.82GiB
+vietbot_caddy               0.00%     14.07MiB / 3.82GiB
+vietbot_pgadmin             0.05%     230.6MiB / 3.82GiB
+vietbot_n8n                 0.78%     174.2MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.953MiB / 3.82GiB
 vietbot_redisinsight        0.00%     97.28MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     9.156MiB / 3.82GiB
-vietbot_prometheus          0.17%     39.47MiB / 3.82GiB
-vietbot_dozzle              0.31%     15.31MiB / 3.82GiB
-vietbot_grafana             0.26%     76.41MiB / 3.82GiB
-vietbot_postgres            0.00%     30.73MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     9.594MiB / 3.82GiB
+vietbot_prometheus          0.19%     39.48MiB / 3.82GiB
+vietbot_dozzle              0.29%     15.31MiB / 3.82GiB
+vietbot_grafana             0.27%     76.41MiB / 3.82GiB
+vietbot_postgres            0.01%     30.73MiB / 3.82GiB
 vietbot_portainer           0.00%     10.7MiB / 3.82GiB
-vietbot_redis               0.53%     3.258MiB / 3.82GiB
-vietbot_node_exporter       0.64%     9.289MiB / 3.82GiB
+vietbot_redis               0.67%     3.258MiB / 3.82GiB
+vietbot_node_exporter       1.43%     9.242MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -232,16 +232,16 @@ No recent errors
 
 ### Recent PostgreSQL Logs:
 ```
-2025-07-13 05:23:05.469 UTC [246568] ERROR:  relation "workflows" does not exist at character 156
-2025-07-13 05:23:05.541 UTC [246576] ERROR:  relation "credentials" does not exist at character 96
-2025-07-13 05:23:05.620 UTC [246584] ERROR:  relation "workflows" does not exist at character 107
-2025-07-13 05:23:06.045 UTC [246593] ERROR:  relation "messages" does not exist at character 110
-2025-07-13 05:23:06.141 UTC [246601] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 05:23:06.224 UTC [246608] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 05:23:06.305 UTC [246615] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 05:23:06.377 UTC [246623] ERROR:  relation "messages" does not exist at character 141
-2025-07-13 05:23:06.452 UTC [246630] ERROR:  relation "session_states" does not exist at character 76
-2025-07-13 05:23:06.600 UTC [246644] ERROR:  relation "error_logs" does not exist at character 79
+2025-07-13 05:24:05.876 UTC [247235] ERROR:  relation "workflows" does not exist at character 156
+2025-07-13 05:24:05.957 UTC [247243] ERROR:  relation "credentials" does not exist at character 96
+2025-07-13 05:24:06.039 UTC [247251] ERROR:  relation "workflows" does not exist at character 107
+2025-07-13 05:24:06.474 UTC [247258] ERROR:  relation "messages" does not exist at character 110
+2025-07-13 05:24:06.574 UTC [247266] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 05:24:06.651 UTC [247273] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 05:24:06.730 UTC [247280] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 05:24:06.799 UTC [247287] ERROR:  relation "messages" does not exist at character 141
+2025-07-13 05:24:06.873 UTC [247295] ERROR:  relation "session_states" does not exist at character 76
+2025-07-13 05:24:07.024 UTC [247310] ERROR:  relation "error_logs" does not exist at character 79
 ```
 
 ### Recent Redis Logs:
