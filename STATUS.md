@@ -1,14 +1,14 @@
-# VietBot Live Status - 2025-07-13 11:55:02
+# VietBot Live Status - 2025-07-13 11:56:02
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 3 days, 1 hour, 41 minutes
+- Uptime: up 3 days, 1 hour, 42 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.22, 0.24, 0.16
+- Load Average:  0.15, 0.22, 0.16
 
 ## 🐳 Docker Services
 ```
@@ -32,18 +32,18 @@ vietbot_node_exporter       Up 3 days               127.0.0.1:9100->9100/tcp
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
 vietbot_caddy               0.00%     13.88MiB / 3.82GiB
-vietbot_pgadmin             0.04%     230.6MiB / 3.82GiB
-vietbot_n8n                 0.71%     173.7MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     7.02MiB / 3.82GiB
+vietbot_pgadmin             0.03%     230.6MiB / 3.82GiB
+vietbot_n8n                 0.84%     173.9MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.102MiB / 3.82GiB
 vietbot_redisinsight        0.00%     97.25MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     8.406MiB / 3.82GiB
-vietbot_prometheus          0.27%     41.47MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     8.32MiB / 3.82GiB
+vietbot_prometheus          0.21%     41.46MiB / 3.82GiB
 vietbot_dozzle              0.00%     13.77MiB / 3.82GiB
-vietbot_grafana             0.18%     76.41MiB / 3.82GiB
-vietbot_postgres            0.01%     30.71MiB / 3.82GiB
+vietbot_grafana             0.26%     76.41MiB / 3.82GiB
+vietbot_postgres            0.02%     30.71MiB / 3.82GiB
 vietbot_portainer           0.00%     10.7MiB / 3.82GiB
-vietbot_redis               0.57%     3.258MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.242MiB / 3.82GiB
+vietbot_redis               0.76%     3.258MiB / 3.82GiB
+vietbot_node_exporter       0.00%     9.246MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -232,16 +232,16 @@ No recent errors
 
 ### Recent PostgreSQL Logs:
 ```
-2025-07-13 04:55:06.236 UTC [227951] ERROR:  relation "workflows" does not exist at character 156
-2025-07-13 04:55:06.308 UTC [227958] ERROR:  relation "credentials" does not exist at character 96
-2025-07-13 04:55:06.386 UTC [227966] ERROR:  relation "workflows" does not exist at character 107
-2025-07-13 04:55:06.807 UTC [227973] ERROR:  relation "messages" does not exist at character 110
-2025-07-13 04:55:06.893 UTC [227980] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 04:55:06.973 UTC [227988] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 04:55:07.047 UTC [227996] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 04:55:07.124 UTC [228003] ERROR:  relation "messages" does not exist at character 141
-2025-07-13 04:55:07.196 UTC [228010] ERROR:  relation "session_states" does not exist at character 76
-2025-07-13 04:55:07.358 UTC [228025] ERROR:  relation "error_logs" does not exist at character 79
+2025-07-13 04:56:05.945 UTC [228616] ERROR:  relation "workflows" does not exist at character 156
+2025-07-13 04:56:06.020 UTC [228624] ERROR:  relation "credentials" does not exist at character 96
+2025-07-13 04:56:06.097 UTC [228631] ERROR:  relation "workflows" does not exist at character 107
+2025-07-13 04:56:06.513 UTC [228638] ERROR:  relation "messages" does not exist at character 110
+2025-07-13 04:56:06.592 UTC [228646] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:56:06.663 UTC [228653] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:56:06.736 UTC [228661] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:56:06.809 UTC [228668] ERROR:  relation "messages" does not exist at character 141
+2025-07-13 04:56:06.885 UTC [228675] ERROR:  relation "session_states" does not exist at character 76
+2025-07-13 04:56:07.030 UTC [228690] ERROR:  relation "error_logs" does not exist at character 79
 ```
 
 ### Recent Redis Logs:
@@ -275,7 +275,7 @@ drwxr-xr-x  2 root root  4096 Jul 10 10:46 config
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 images
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 logs
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 prometheus
-drwxr-xr-x  5 root root  4096 Jul 13 11:47 realtime-backup
+drwxr-xr-x  5 root root  4096 Jul 13 11:55 realtime-backup
 -rw-r--r--  1 root root 19635 Jul  9 18:15 schema.sql
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 scripts
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 uploads
