@@ -1,4 +1,5 @@
-# Database Schema - 2025-07-13 20:46:01
+# Database Schema - Updated: 2025-07-13 20:46:44
+
 ```sql
 --
 -- PostgreSQL database dump
@@ -999,5 +1000,4 @@ ALTER TABLE public.system_config OWNER TO vietbot;
 --
 -- Name: system_config_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
 --
-
 ```
