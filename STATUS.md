@@ -1,14 +1,14 @@
-# VietBot Live Status - 2025-07-13 12:28:02
+# VietBot Live Status - 2025-07-13 12:29:02
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 3 days, 2 hours, 14 minutes
+- Uptime: up 3 days, 2 hours, 15 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.08, 0.24, 0.33
+- Load Average:  0.51, 0.36, 0.36
 
 ## 🐳 Docker Services
 ```
@@ -31,19 +31,19 @@ vietbot_node_exporter       Up 3 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.02%     14.07MiB / 3.82GiB
-vietbot_pgadmin             0.04%     230.6MiB / 3.82GiB
-vietbot_n8n                 0.70%     173.8MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     8.125MiB / 3.82GiB
-vietbot_redisinsight        0.00%     97.28MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     9.082MiB / 3.82GiB
-vietbot_prometheus          0.00%     39.49MiB / 3.82GiB
-vietbot_dozzle              0.45%     15.31MiB / 3.82GiB
-vietbot_grafana             0.22%     76.41MiB / 3.82GiB
-vietbot_postgres            3.44%     30.73MiB / 3.82GiB
+vietbot_caddy               0.13%     14.07MiB / 3.82GiB
+vietbot_pgadmin             0.03%     230.6MiB / 3.82GiB
+vietbot_n8n                 0.67%     173.8MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.723MiB / 3.82GiB
+vietbot_redisinsight        0.00%     97.29MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     9.148MiB / 3.82GiB
+vietbot_prometheus          0.22%     39.47MiB / 3.82GiB
+vietbot_dozzle              0.22%     15.31MiB / 3.82GiB
+vietbot_grafana             0.28%     76.41MiB / 3.82GiB
+vietbot_postgres            3.72%     30.73MiB / 3.82GiB
 vietbot_portainer           0.00%     10.7MiB / 3.82GiB
-vietbot_redis               1.75%     3.254MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.238MiB / 3.82GiB
+vietbot_redis               0.51%     3.254MiB / 3.82GiB
+vietbot_node_exporter       1.46%     9.238MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -232,16 +232,16 @@ No recent errors
 
 ### Recent PostgreSQL Logs:
 ```
-2025-07-13 05:28:05.335 UTC [249915] ERROR:  relation "workflows" does not exist at character 156
-2025-07-13 05:28:05.415 UTC [249922] ERROR:  relation "credentials" does not exist at character 96
-2025-07-13 05:28:05.490 UTC [249930] ERROR:  relation "workflows" does not exist at character 107
-2025-07-13 05:28:05.912 UTC [249938] ERROR:  relation "messages" does not exist at character 110
-2025-07-13 05:28:06.001 UTC [249946] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 05:28:06.070 UTC [249954] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 05:28:06.137 UTC [249962] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 05:28:06.208 UTC [249969] ERROR:  relation "messages" does not exist at character 141
-2025-07-13 05:28:06.276 UTC [249977] ERROR:  relation "session_states" does not exist at character 76
-2025-07-13 05:28:06.424 UTC [249993] ERROR:  relation "error_logs" does not exist at character 79
+2025-07-13 05:29:05.726 UTC [250590] ERROR:  relation "workflows" does not exist at character 156
+2025-07-13 05:29:05.803 UTC [250598] ERROR:  relation "credentials" does not exist at character 96
+2025-07-13 05:29:05.874 UTC [250605] ERROR:  relation "workflows" does not exist at character 107
+2025-07-13 05:29:06.296 UTC [250613] ERROR:  relation "messages" does not exist at character 110
+2025-07-13 05:29:06.404 UTC [250621] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 05:29:06.484 UTC [250628] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 05:29:06.562 UTC [250635] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 05:29:06.652 UTC [250642] ERROR:  relation "messages" does not exist at character 141
+2025-07-13 05:29:06.729 UTC [250648] ERROR:  relation "session_states" does not exist at character 76
+2025-07-13 05:29:06.881 UTC [250663] ERROR:  relation "error_logs" does not exist at character 79
 ```
 
 ### Recent Redis Logs:
