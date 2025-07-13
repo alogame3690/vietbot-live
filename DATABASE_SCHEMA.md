@@ -1,4 +1,4 @@
-# VietBot Database Schema - 2025-07-13 13:14:02
+# VietBot Database Schema - 
 
 ## Database Info
 ```sql

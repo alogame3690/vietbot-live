@@ -1,30 +1,32 @@
 #!/bin/bash
 
-# VietBot Live Backup Script - COMPLETE Version với FULL System Visibility
-# Chạy mỗi phút để backup TOÀN BỘ system status
+# VietBot Auto Backup Script with Git Time
+cd /opt/vietbot/realtime-backup
 
-BACKUP_DIR="/opt/vietbot/realtime-backup"
-cd $BACKUP_DIR || exit 1
+# Get both VPS time and Git commit time
+VPS_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+TIMEZONE=$(timedatectl | grep "Time zone" | awk '{print $3}')
 
-# Pull latest changes
-git pull origin main --quiet
-
-# Get timestamp
-TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-
-# Create STATUS.md với ĐẦY ĐỦ thông tin
+# Create STATUS.md with Git info
 cat > STATUS.md << EOF
-# VietBot Live Status - $TIMESTAMP
+# VietBot Live Status
+
+## ⏰ TIME INFORMATION
+- **VPS Time**: $VPS_TIME
+- **VPS Timezone**: $TIMEZONE
+- **Last Git Commit**: [Will be updated after commit]
+- **Script Run Time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
 
 ## 🖥️ VPS Info
-- IP: 103.77.214.227
+- IP: $(curl -s ifconfig.me)
 - Domain: n8n.ntvn8n.xyz
 - OS: $(lsb_release -d | cut -f2)
 - Uptime: $(uptime -p)
 - CPU: $(nproc) cores
 - RAM: $(free -h | awk '/^Mem:/ {print $2}')
-- Disk: $(df -h / | awk 'NR==2 {print $4}' | tr -d ' ') free
+- Disk: $(df -h / | awk 'NR==2 {print $4}' | sed 's/G/ GB/') free
 - Load Average: $(uptime | awk -F'load average:' '{print $2}')
+
 
 ## 🐳 Docker Services
 \`\`\`
