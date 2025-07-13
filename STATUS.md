@@ -1,13 +1,14 @@
-# VietBot Live Status - 2025-07-13 11:46:01
+# VietBot Live Status - 2025-07-13 11:47:02
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 3 days, 1 hour, 32 minutes
+- Uptime: up 3 days, 1 hour, 33 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
+- Load Average:  0.04, 0.09, 0.08
 
 ## 🐳 Docker Services
 ```
@@ -30,46 +31,232 @@ vietbot_node_exporter       Up 3 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.04%     13.85MiB / 3.82GiB
-vietbot_pgadmin             0.03%     230.6MiB / 3.82GiB
-vietbot_n8n                 0.87%     173.3MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     8.188MiB / 3.82GiB
+vietbot_caddy               0.00%     13.85MiB / 3.82GiB
+vietbot_pgadmin             0.04%     230.6MiB / 3.82GiB
+vietbot_n8n                 0.71%     173.5MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.027MiB / 3.82GiB
 vietbot_redisinsight        0.00%     97.24MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     9.066MiB / 3.82GiB
-vietbot_prometheus          0.00%     41.21MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     8.031MiB / 3.82GiB
+vietbot_prometheus          0.27%     41.21MiB / 3.82GiB
 vietbot_dozzle              0.00%     11.36MiB / 3.82GiB
-vietbot_grafana             0.32%     76.57MiB / 3.82GiB
-vietbot_postgres            0.01%     30.69MiB / 3.82GiB
+vietbot_grafana             0.26%     76.57MiB / 3.82GiB
+vietbot_postgres            0.01%     30.7MiB / 3.82GiB
 vietbot_portainer           0.00%     10.7MiB / 3.82GiB
-vietbot_redis               0.68%     3.25MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.246MiB / 3.82GiB
+vietbot_redis               0.60%     3.25MiB / 3.82GiB
+vietbot_node_exporter       1.28%     9.25MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
 ```sql
-Database not accessible
+                                               List of relations
+ Schema |            Name            | Type  |  Owner  | Persistence | Access method |    Size    | Description 
+--------+----------------------------+-------+---------+-------------+---------------+------------+-------------
+ public | analytics                  | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | annotation_tag_entity      | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | auth_identity              | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | auth_provider_sync_history | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | conversations              | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | credentials_entity         | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | customers                  | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | escalations                | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | event_destinations         | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | execution_annotation_tags  | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | execution_annotations      | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | execution_data             | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | execution_entity           | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | execution_metadata         | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | faq                        | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | installed_nodes            | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | installed_packages         | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | intents                    | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | invalid_auth_token         | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | message_queue              | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | migrations                 | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | order_items                | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | orders                     | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | processed_data             | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | products                   | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | project                    | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | project_relation           | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | role                       | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | sessions                   | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | settings                   | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | shared_credentials         | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | shared_workflow            | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | system_config              | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | tag_entity                 | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | test_definition            | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | test_metric                | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | test_run                   | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | user                       | table | vietbot | permanent   | heap          | 16 kB      | 
+ public | user_api_keys              | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | variables                  | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | webhook_entity             | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | workflow_entity            | table | vietbot | permanent   | heap          | 88 kB      | 
+ public | workflow_history           | table | vietbot | permanent   | heap          | 8192 bytes | 
+ public | workflow_statistics        | table | vietbot | permanent   | heap          | 0 bytes    | 
+ public | workflows_tags             | table | vietbot | permanent   | heap          | 0 bytes    | 
+(45 rows)
 ```
 
-## 🔄 N8N Status
+## 🔄 N8N Status Summary
 - URL: https://n8n.ntvn8n.xyz
-- Webhook: https://n8n.ntvn8n.xyz/webhook/facebook-webhook
-- Workflows: 0 active
-- Version: Unknown
+- Container Status: unhealthy
+- Workflows Total: 0
+- Workflows Active: 0
+- Executions Today: 0
+- Failed Today: 0
+- Last Execution: Never
+- Version: 1.71.3
 
-## ⚠️ Recent Errors (Last 20 lines)
-### N8N Errors:
-```
-Error response from daemon: No such container: n8n
-```
-
-### PostgreSQL Errors:
-```
-Error response from daemon: No such container: postgres
+## 📊 N8N Workflows Detail
+```sql
+ERROR:  relation "workflows" does not exist
+LINE 1: ...ength' as node_count, created_at, updated_at FROM workflows ...
+                                                             ^
+No workflows found
 ```
 
-### Redis Errors:
+## 🔄 N8N Workflow Executions (Last 20)
+```sql
+ERROR:  relation "workflow_executions" does not exist
+LINE 1: ...d_at, (finished_at - started_at) as duration FROM workflow_e...
+                                                             ^
+No executions found
 ```
-Error response from daemon: No such container: redis
+
+## 🚨 Failed Executions Detail (Last 5)
+```sql
+ERROR:  relation "workflow_executions" does not exist
+LINE 1: ...Data'->'resultData'->'error' as error_detail FROM workflow_e...
+                                                             ^
+No failed executions
+```
+
+## 📝 Active Workflow Nodes
+```sql
+ERROR:  relation "workflows" does not exist
+LINE 1: ...(nodes::json->'nodes')->>'type' as node_type FROM workflows ...
+                                                             ^
+```
+
+## 🔗 N8N Credentials Status
+```sql
+ERROR:  relation "credentials" does not exist
+LINE 1: ...updated_at, COUNT(w.id) as used_in_workflows FROM credential...
+                                                             ^
+No credentials found
+```
+
+## 📊 N8N Webhook URLs
+```sql
+ERROR:  relation "workflows" does not exist
+LINE 1: ...k_id, w.path, w.method FROM webhook_entity w JOIN workflows ...
+                                                             ^
+No webhooks found
+```
+
+## 📌 Redis Status
+### Keys Overview:
+```
+Total Keys: 
+Memory Usage: 1.20M
+```
+
+### Session Keys (Last 20):
+```
+
+```
+
+### Queue Keys:
+```
+
+```
+
+### Active Sessions Detail:
+```
+
+```
+
+## 📨 Recent Facebook Messages (Last 20)
+```sql
+ERROR:  relation "messages" does not exist
+LINE 1: ...e, m.message_text, m.created_at, m.processed FROM messages m...
+                                                             ^
+No messages found
+```
+
+## 📊 Message Queue Status
+```sql
+Unprocessed Messages: 0
+Messages Last Hour: 0
+Messages Today: 0
+```
+
+## 👥 Active Customers (Last 24h)
+```sql
+ERROR:  relation "messages" does not exist
+LINE 1: ...created_at) as last_message FROM customers c JOIN messages m...
+                                                             ^
+No active customers
+```
+
+## 📊 Session States
+```sql
+ERROR:  relation "session_states" does not exist
+LINE 1: ...er_id, current_state, context, last_activity FROM session_st...
+                                                             ^
+No active sessions
+```
+
+## 🛒 Recent Orders
+```sql
+ id | customer_id | status | total_amount | created_at 
+----+-------------+--------+--------------+------------
+(0 rows)
+```
+
+## ⚠️ Error Logs Summary
+### System Errors (Last 24h):
+```sql
+ERROR:  relation "error_logs" does not exist
+LINE 1: ...as count, MAX(created_at) as last_occurrence FROM error_logs...
+                                                             ^
+No errors
+```
+
+### Recent N8N Container Logs:
+```
+No recent errors
+```
+
+### Recent PostgreSQL Logs:
+```
+2025-07-13 04:47:06.091 UTC [222617] ERROR:  relation "workflows" does not exist at character 156
+2025-07-13 04:47:06.167 UTC [222625] ERROR:  relation "credentials" does not exist at character 96
+2025-07-13 04:47:06.244 UTC [222633] ERROR:  relation "workflows" does not exist at character 107
+2025-07-13 04:47:06.653 UTC [222640] ERROR:  relation "messages" does not exist at character 110
+2025-07-13 04:47:06.726 UTC [222647] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:47:06.798 UTC [222655] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:47:06.885 UTC [222663] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:47:06.954 UTC [222671] ERROR:  relation "messages" does not exist at character 141
+2025-07-13 04:47:07.024 UTC [222678] ERROR:  relation "session_states" does not exist at character 76
+2025-07-13 04:47:07.188 UTC [222693] ERROR:  relation "error_logs" does not exist at character 79
+```
+
+### Recent Redis Logs:
+```
+1:C 10 Jul 2025 04:10:21.523 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+```
+
+## 🔌 Container Health Checks
+```
+N8N Health: ❌ Unhealthy
+PostgreSQL: /var/run/postgresql:5432 - accepting connections
+✅ Ready
+Redis: ✅ PONG
+N8N -> PostgreSQL: ❌ Connection Failed
+N8N -> Redis: ❌ Connection Failed
 ```
 
 ## 📁 Project Structure
@@ -88,7 +275,7 @@ drwxr-xr-x  2 root root  4096 Jul 10 10:46 config
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 images
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 logs
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 prometheus
-drwxr-xr-x  5 root root  4096 Jul 13 11:31 realtime-backup
+drwxr-xr-x  5 root root  4096 Jul 13 11:47 realtime-backup
 -rw-r--r--  1 root root 19635 Jul  9 18:15 schema.sql
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 scripts
 drwxr-xr-x  2 root root  4096 Jul  9 13:19 uploads
