@@ -1,14 +1,14 @@
-# VietBot Live Status - 2025-07-13 13:04:02
+# VietBot Live Status - 2025-07-13 13:05:01
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 3 days, 2 hours, 50 minutes
+- Uptime: up 3 days, 2 hours, 51 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.14, 0.50, 0.57
+- Load Average:  0.21, 0.48, 0.55
 
 ## 🐳 Docker Services
 ```
@@ -31,19 +31,19 @@ vietbot_node_exporter       Up 3 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.00%     14.42MiB / 3.82GiB
-vietbot_pgadmin             0.04%     230.6MiB / 3.82GiB
-vietbot_n8n                 3.47%     176.1MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     7.395MiB / 3.82GiB
-vietbot_redisinsight        0.00%     97.31MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     8.844MiB / 3.82GiB
-vietbot_prometheus          0.21%     40.58MiB / 3.82GiB
-vietbot_dozzle              0.39%     15.34MiB / 3.82GiB
-vietbot_grafana             0.24%     76.41MiB / 3.82GiB
-vietbot_postgres            0.04%     31.03MiB / 3.82GiB
+vietbot_caddy               0.58%     14.42MiB / 3.82GiB
+vietbot_pgadmin             0.03%     230.6MiB / 3.82GiB
+vietbot_n8n                 3.27%     176.2MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     8.109MiB / 3.82GiB
+vietbot_redisinsight        0.00%     97.32MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     8.199MiB / 3.82GiB
+vietbot_prometheus          0.00%     40.46MiB / 3.82GiB
+vietbot_dozzle              0.36%     15.34MiB / 3.82GiB
+vietbot_grafana             0.30%     76.41MiB / 3.82GiB
+vietbot_postgres            0.00%     31.03MiB / 3.82GiB
 vietbot_portainer           0.00%     10.7MiB / 3.82GiB
-vietbot_redis               3.23%     3.258MiB / 3.82GiB
-vietbot_node_exporter       1.50%     9.242MiB / 3.82GiB
+vietbot_redis               0.54%     3.254MiB / 3.82GiB
+vietbot_node_exporter       0.00%     9.242MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
