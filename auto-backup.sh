@@ -43,43 +43,54 @@ $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "\dt+" 2>&1 || e
 
 ## 🔄 N8N Status Summary
 - URL: https://n8n.ntvn8n.xyz
-- Container Status: $(docker inspect vietbot_n8n --format='{{.State.Health.Status}}' 2>/dev/null || echo "Unknown")
-- Workflows Total: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM workflows" 2>/dev/null || echo "0")
-- Workflows Active: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM workflows WHERE active = true" 2>/dev/null || echo "0")
-- Executions Today: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM workflow_executions WHERE started_at > CURRENT_DATE" 2>/dev/null || echo "0")
-- Failed Today: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM workflow_executions WHERE status = 'failed' AND started_at > CURRENT_DATE" 2>/dev/null || echo "0")
-- Last Execution: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT started_at FROM workflow_executions ORDER BY started_at DESC LIMIT 1" 2>/dev/null || echo "Never")
+- Container Status: $(docker ps --format "table {{.Names}}\t{{.Status}}" | grep vietbot_n8n | awk '{$1=""; print $0}' | xargs)
+- Container Health: $(docker inspect vietbot_n8n --format='{{.State.Health.Status}}' 2>/dev/null || echo "unknown")
+- Workflows Total: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM workflow_entity" 2>/dev/null | xargs || echo "0")
+- Workflows Active: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM workflow_entity WHERE active = true" 2>/dev/null | xargs || echo "0")
+- Executions Today: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM execution_entity WHERE started_at > CURRENT_DATE" 2>/dev/null | xargs || echo "0")
+- Failed Today: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT COUNT(*) FROM execution_entity WHERE status = 'failed' AND started_at > CURRENT_DATE" 2>/dev/null | xargs || echo "0")
+- Last Execution: $(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -t -c "SELECT MAX(started_at) FROM execution_entity" 2>/dev/null | xargs || echo "Never")
 - Version: $(docker exec vietbot_n8n n8n --version 2>/dev/null || echo "Unknown")
 
 ## 📊 N8N Workflows Detail
 \`\`\`sql
-$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT id, name, active, nodes::json->'length' as node_count, created_at, updated_at FROM workflows ORDER BY active DESC, updated_at DESC" 2>&1 || echo "No workflows found")
+$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT id, name, active, jsonb_array_length(nodes::jsonb -> 'nodes') as node_count, created_at, updated_at FROM workflow_entity ORDER BY active DESC, updated_at DESC" 2>&1 || echo "No workflows found")
 \`\`\`
 
 ## 🔄 N8N Workflow Executions (Last 20)
 \`\`\`sql
-$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT id, workflow_id, status, mode, started_at, finished_at, (finished_at - started_at) as duration FROM workflow_executions ORDER BY started_at DESC LIMIT 20" 2>&1 || echo "No executions found")
+$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT e.id, e.workflow_id, w.name as workflow_name, e.status, e.mode, e.started_at, e.finished_at FROM execution_entity e LEFT JOIN workflow_entity w ON e.workflow_id = w.id ORDER BY e.started_at DESC LIMIT 20" 2>&1 || echo "No executions found")
 \`\`\`
 
 ## 🚨 Failed Executions Detail (Last 5)
 \`\`\`sql
-$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT id, workflow_id, started_at, data::json->'lastNodeExecuted' as last_node, data::json->'executionData'->'resultData'->'error' as error_detail FROM workflow_executions WHERE status = 'failed' ORDER BY started_at DESC LIMIT 5" 2>&1 || echo "No failed executions")
+$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT e.id, w.name as workflow_name, e.started_at, e.finished_at FROM execution_entity e LEFT JOIN workflow_entity w ON e.workflow_id = w.id WHERE e.status = 'failed' ORDER BY e.started_at DESC LIMIT 5" 2>&1 || echo "No failed executions")
 \`\`\`
 
 ## 📝 Active Workflow Nodes
 \`\`\`sql
-$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT w.id, w.name, json_array_elements(nodes::json->'nodes')->>'name' as node_name, json_array_elements(nodes::json->'nodes')->>'type' as node_type FROM workflows w WHERE active = true" 2>&1 | head -50 || echo "No active workflow nodes")
+$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT w.id, w.name, jsonb_array_elements(nodes::jsonb -> 'nodes')->>'type' as node_type FROM workflow_entity w WHERE active = true LIMIT 50" 2>&1 || echo "No active workflow nodes")
 \`\`\`
 
 ## 🔗 N8N Credentials Status
 \`\`\`sql
-$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT c.id, c.name, c.type, c.created_at, c.updated_at, COUNT(w.id) as used_in_workflows FROM credentials c LEFT JOIN workflows w ON w.data::text LIKE '%\"credentialId\":\"' || c.id || '\"%' GROUP BY c.id ORDER BY used_in_workflows DESC" 2>&1 || echo "No credentials found")
+$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT id, name, type, created_at, updated_at FROM credentials_entity ORDER BY updated_at DESC" 2>&1 || echo "No credentials found")
 \`\`\`
 
 ## 📊 N8N Webhook URLs
 \`\`\`sql
-$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT w.workflow_id, wf.name as workflow_name, w.webhook_id, w.path, w.method FROM webhook_entity w JOIN workflows wf ON w.workflow_id = wf.id WHERE wf.active = true" 2>&1 || echo "No webhooks found")
+$(docker exec vietbot_postgres psql -U vietbot -d vietbot_ai -c "SELECT we.webhook_id, we.webhook_path, we.method, we.node, w.name as workflow_name, w.active FROM webhook_entity we LEFT JOIN workflow_entity w ON we.workflow_id = w.id ORDER BY w.active DESC" 2>&1 || echo "No webhooks found")
 \`\`\`
+EOF
+
+# N8N Environment Variables
+echo "" >> STATUS.md
+echo "## 🔧 N8N Environment Check" >> STATUS.md
+echo "\`\`\`" >> STATUS.md
+docker exec vietbot_n8n env | grep -E "(N8N_|DB_|WEBHOOK|FB_|CLAUDE)" | sort >> STATUS.md 2>&1
+echo "\`\`\`" >> STATUS.md
+
+cat >> STATUS.md << 'EOF'
 
 ## 📌 Redis Status
 ### Keys Overview:
