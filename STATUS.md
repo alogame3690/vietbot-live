@@ -1,14 +1,14 @@
-# VietBot Live Status - 2025-07-13 11:52:02
+# VietBot Live Status - 2025-07-13 11:53:02
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 3 days, 1 hour, 38 minutes
+- Uptime: up 3 days, 1 hour, 39 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.24, 0.21, 0.13
+- Load Average:  0.27, 0.24, 0.14
 
 ## 🐳 Docker Services
 ```
@@ -31,19 +31,19 @@ vietbot_node_exporter       Up 3 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.00%     13.86MiB / 3.82GiB
-vietbot_pgadmin             0.05%     230.6MiB / 3.82GiB
-vietbot_n8n                 0.73%     173.5MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     8.035MiB / 3.82GiB
+vietbot_caddy               0.00%     13.88MiB / 3.82GiB
+vietbot_pgadmin             0.03%     230.6MiB / 3.82GiB
+vietbot_n8n                 0.85%     173.6MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.75MiB / 3.82GiB
 vietbot_redisinsight        0.00%     97.25MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     8.742MiB / 3.82GiB
-vietbot_prometheus          0.27%     41.39MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     9.23MiB / 3.82GiB
+vietbot_prometheus          0.26%     41.43MiB / 3.82GiB
 vietbot_dozzle              0.00%     13.74MiB / 3.82GiB
-vietbot_grafana             0.28%     76.41MiB / 3.82GiB
-vietbot_postgres            0.00%     30.71MiB / 3.82GiB
+vietbot_grafana             0.25%     76.41MiB / 3.82GiB
+vietbot_postgres            0.03%     30.71MiB / 3.82GiB
 vietbot_portainer           0.00%     10.7MiB / 3.82GiB
-vietbot_redis               0.69%     3.258MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.73MiB / 3.82GiB
+vietbot_redis               0.80%     3.254MiB / 3.82GiB
+vietbot_node_exporter       1.49%     9.176MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -232,16 +232,16 @@ No recent errors
 
 ### Recent PostgreSQL Logs:
 ```
-2025-07-13 04:52:06.050 UTC [225951] ERROR:  relation "workflows" does not exist at character 156
-2025-07-13 04:52:06.122 UTC [225958] ERROR:  relation "credentials" does not exist at character 96
-2025-07-13 04:52:06.196 UTC [225966] ERROR:  relation "workflows" does not exist at character 107
-2025-07-13 04:52:06.604 UTC [225973] ERROR:  relation "messages" does not exist at character 110
-2025-07-13 04:52:06.677 UTC [225981] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 04:52:06.747 UTC [225989] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 04:52:06.822 UTC [225997] ERROR:  relation "messages" does not exist at character 22
-2025-07-13 04:52:06.891 UTC [226004] ERROR:  relation "messages" does not exist at character 141
-2025-07-13 04:52:06.960 UTC [226011] ERROR:  relation "session_states" does not exist at character 76
-2025-07-13 04:52:07.106 UTC [226026] ERROR:  relation "error_logs" does not exist at character 79
+2025-07-13 04:53:05.584 UTC [226615] ERROR:  relation "workflows" does not exist at character 156
+2025-07-13 04:53:05.653 UTC [226623] ERROR:  relation "credentials" does not exist at character 96
+2025-07-13 04:53:05.733 UTC [226630] ERROR:  relation "workflows" does not exist at character 107
+2025-07-13 04:53:06.162 UTC [226637] ERROR:  relation "messages" does not exist at character 110
+2025-07-13 04:53:06.229 UTC [226645] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:53:06.297 UTC [226653] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:53:06.366 UTC [226660] ERROR:  relation "messages" does not exist at character 22
+2025-07-13 04:53:06.439 UTC [226668] ERROR:  relation "messages" does not exist at character 141
+2025-07-13 04:53:06.515 UTC [226676] ERROR:  relation "session_states" does not exist at character 76
+2025-07-13 04:53:06.662 UTC [226691] ERROR:  relation "error_logs" does not exist at character 79
 ```
 
 ### Recent Redis Logs:
