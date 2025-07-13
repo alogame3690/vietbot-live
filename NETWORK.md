@@ -1,4 +1,4 @@
-# Network Configuration - 2025-07-13 20:46:01
+# Network Configuration - Updated: 2025-07-13 20:46:44
 
 ## Docker Networks
 ```
@@ -7,6 +7,12 @@ NETWORK ID     NAME                      DRIVER    SCOPE
 d223fa96f851   host                      host      local
 b65991d18fbe   none                      null      local
 ea0be0ddad2c   vietbot_vietbot_network   bridge    local
+```
+
+## Network Details
+```
+[]
+Error response from daemon: network vietbot_network not found
 ```
 
 ## Port Mappings
