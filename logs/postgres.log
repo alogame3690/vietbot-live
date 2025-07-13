@@ -1,100 +1,100 @@
-2025-07-13 06:11:09.778 UTC [279403] ERROR:  relation "credentials" does not exist at character 15
-2025-07-13 06:11:09.778 UTC [279403] STATEMENT:  SELECT * FROM credentials ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:11:09.852 UTC [279411] ERROR:  relation "credentials" does not exist at character 15
-2025-07-13 06:11:09.852 UTC [279411] STATEMENT:  SELECT * FROM credentials LIMIT 5
-2025-07-13 06:11:10.111 UTC [279435] ERROR:  column "created_at" does not exist at character 39
-2025-07-13 06:11:10.111 UTC [279435] STATEMENT:  SELECT * FROM webhook_entity ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:11:17.648 UTC [279452] FATAL:  database "vietbot" does not exist
-2025-07-13 06:11:27.698 UTC [279462] FATAL:  database "vietbot" does not exist
-2025-07-13 06:11:37.747 UTC [279469] FATAL:  database "vietbot" does not exist
-2025-07-13 06:11:47.806 UTC [279479] FATAL:  database "vietbot" does not exist
-2025-07-13 06:11:57.852 UTC [279487] FATAL:  database "vietbot" does not exist
-2025-07-13 06:12:04.882 UTC [279516] ERROR:  column "started_at" does not exist at character 45
-2025-07-13 06:12:04.882 UTC [279516] HINT:  Perhaps you meant to reference the column "execution_entity.startedAt".
-2025-07-13 06:12:04.882 UTC [279516] STATEMENT:  SELECT COUNT(*) FROM execution_entity WHERE started_at > CURRENT_DATE
-2025-07-13 06:12:04.952 UTC [279524] ERROR:  column "started_at" does not exist at character 67
-2025-07-13 06:12:04.952 UTC [279524] HINT:  Perhaps you meant to reference the column "execution_entity.startedAt".
-2025-07-13 06:12:04.952 UTC [279524] STATEMENT:  SELECT COUNT(*) FROM execution_entity WHERE status = 'failed' AND started_at > CURRENT_DATE
-2025-07-13 06:12:05.027 UTC [279532] ERROR:  column "started_at" does not exist at character 12
-2025-07-13 06:12:05.027 UTC [279532] HINT:  Perhaps you meant to reference the column "execution_entity.startedAt".
-2025-07-13 06:12:05.027 UTC [279532] STATEMENT:  SELECT MAX(started_at) FROM execution_entity
-2025-07-13 06:12:05.213 UTC [279540] ERROR:  column "created_at" does not exist at character 85
-2025-07-13 06:12:05.213 UTC [279540] HINT:  Perhaps you meant to reference the column "workflow_entity.createdAt".
-2025-07-13 06:12:05.213 UTC [279540] STATEMENT:  SELECT id, name, active, jsonb_array_length(nodes::jsonb -> 'nodes') as node_count, created_at, updated_at FROM workflow_entity ORDER BY active DESC, updated_at DESC
-2025-07-13 06:12:05.288 UTC [279548] ERROR:  column e.workflow_id does not exist at character 155
-2025-07-13 06:12:05.288 UTC [279548] HINT:  Perhaps you meant to reference the column "e.workflowId".
-2025-07-13 06:12:05.288 UTC [279548] STATEMENT:  SELECT e.id, e.workflow_id, w.name as workflow_name, e.status, e.mode, e.started_at, e.finished_at FROM execution_entity e LEFT JOIN workflow_entity w ON e.workflow_id = w.id ORDER BY e.started_at DESC LIMIT 20
-2025-07-13 06:12:05.361 UTC [279555] ERROR:  column e.workflow_id does not exist at character 122
-2025-07-13 06:12:05.361 UTC [279555] HINT:  Perhaps you meant to reference the column "e.workflowId".
-2025-07-13 06:12:05.361 UTC [279555] STATEMENT:  SELECT e.id, w.name as workflow_name, e.started_at, e.finished_at FROM execution_entity e LEFT JOIN workflow_entity w ON e.workflow_id = w.id WHERE e.status = 'failed' ORDER BY e.started_at DESC LIMIT 5
-2025-07-13 06:12:05.512 UTC [279570] ERROR:  column "created_at" does not exist at character 24
-2025-07-13 06:12:05.512 UTC [279570] HINT:  Perhaps you meant to reference the column "credentials_entity.createdAt".
-2025-07-13 06:12:05.512 UTC [279570] STATEMENT:  SELECT id, name, type, created_at, updated_at FROM credentials_entity ORDER BY updated_at DESC
-2025-07-13 06:12:05.589 UTC [279577] ERROR:  column we.workflow_id does not exist at character 148
-2025-07-13 06:12:05.589 UTC [279577] HINT:  Perhaps you meant to reference the column "we.workflowId".
-2025-07-13 06:12:05.589 UTC [279577] STATEMENT:  SELECT we.webhook_id, we.webhook_path, we.method, we.node, w.name as workflow_name, w.active FROM webhook_entity we LEFT JOIN workflow_entity w ON we.workflow_id = w.id ORDER BY w.active DESC
-2025-07-13 06:12:06.531 UTC [279653] ERROR:  column "created_at" does not exist at character 38
-2025-07-13 06:12:06.531 UTC [279653] STATEMENT:  SELECT * FROM conversations ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:06.775 UTC [279677] ERROR:  relation "messages" does not exist at character 36
-2025-07-13 06:12:06.775 UTC [279677] STATEMENT:  SELECT COUNT(*) as total_rows FROM messages
-2025-07-13 06:12:06.839 UTC [279684] ERROR:  relation "messages" does not exist at character 15
-2025-07-13 06:12:06.839 UTC [279684] STATEMENT:  SELECT * FROM messages ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:06.912 UTC [279692] ERROR:  relation "messages" does not exist at character 15
-2025-07-13 06:12:06.912 UTC [279692] STATEMENT:  SELECT * FROM messages LIMIT 5
-2025-07-13 06:12:07.058 UTC [279706] ERROR:  relation "workflow_executions" does not exist at character 36
-2025-07-13 06:12:07.058 UTC [279706] STATEMENT:  SELECT COUNT(*) as total_rows FROM workflow_executions
-2025-07-13 06:12:07.137 UTC [279713] ERROR:  relation "workflow_executions" does not exist at character 15
-2025-07-13 06:12:07.137 UTC [279713] STATEMENT:  SELECT * FROM workflow_executions ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:07.209 UTC [279720] ERROR:  relation "workflow_executions" does not exist at character 15
-2025-07-13 06:12:07.209 UTC [279720] STATEMENT:  SELECT * FROM workflow_executions LIMIT 5
-2025-07-13 06:12:07.360 UTC [279736] ERROR:  relation "session_states" does not exist at character 36
-2025-07-13 06:12:07.360 UTC [279736] STATEMENT:  SELECT COUNT(*) as total_rows FROM session_states
-2025-07-13 06:12:07.429 UTC [279743] ERROR:  relation "session_states" does not exist at character 15
-2025-07-13 06:12:07.429 UTC [279743] STATEMENT:  SELECT * FROM session_states ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:07.499 UTC [279750] ERROR:  relation "session_states" does not exist at character 15
-2025-07-13 06:12:07.499 UTC [279750] STATEMENT:  SELECT * FROM session_states LIMIT 5
-2025-07-13 06:12:07.909 UTC [279795] FATAL:  database "vietbot" does not exist
-2025-07-13 06:12:08.194 UTC [279818] ERROR:  relation "user_preferences" does not exist at character 36
-2025-07-13 06:12:08.194 UTC [279818] STATEMENT:  SELECT COUNT(*) as total_rows FROM user_preferences
-2025-07-13 06:12:08.268 UTC [279826] ERROR:  relation "user_preferences" does not exist at character 15
-2025-07-13 06:12:08.268 UTC [279826] STATEMENT:  SELECT * FROM user_preferences ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:08.343 UTC [279834] ERROR:  relation "user_preferences" does not exist at character 15
-2025-07-13 06:12:08.343 UTC [279834] STATEMENT:  SELECT * FROM user_preferences LIMIT 5
-2025-07-13 06:12:08.490 UTC [279849] ERROR:  relation "faq_items" does not exist at character 36
-2025-07-13 06:12:08.490 UTC [279849] STATEMENT:  SELECT COUNT(*) as total_rows FROM faq_items
-2025-07-13 06:12:08.565 UTC [279856] ERROR:  relation "faq_items" does not exist at character 15
-2025-07-13 06:12:08.565 UTC [279856] STATEMENT:  SELECT * FROM faq_items ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:08.643 UTC [279863] ERROR:  relation "faq_items" does not exist at character 15
-2025-07-13 06:12:08.643 UTC [279863] STATEMENT:  SELECT * FROM faq_items LIMIT 5
-2025-07-13 06:12:08.788 UTC [279878] ERROR:  relation "analytics_events" does not exist at character 36
-2025-07-13 06:12:08.788 UTC [279878] STATEMENT:  SELECT COUNT(*) as total_rows FROM analytics_events
-2025-07-13 06:12:08.857 UTC [279886] ERROR:  relation "analytics_events" does not exist at character 15
-2025-07-13 06:12:08.857 UTC [279886] STATEMENT:  SELECT * FROM analytics_events ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:08.929 UTC [279894] ERROR:  relation "analytics_events" does not exist at character 15
-2025-07-13 06:12:08.929 UTC [279894] STATEMENT:  SELECT * FROM analytics_events LIMIT 5
-2025-07-13 06:12:09.071 UTC [279909] ERROR:  relation "error_logs" does not exist at character 36
-2025-07-13 06:12:09.071 UTC [279909] STATEMENT:  SELECT COUNT(*) as total_rows FROM error_logs
-2025-07-13 06:12:09.160 UTC [279917] ERROR:  relation "error_logs" does not exist at character 15
-2025-07-13 06:12:09.160 UTC [279917] STATEMENT:  SELECT * FROM error_logs ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:09.244 UTC [279925] ERROR:  relation "error_logs" does not exist at character 15
-2025-07-13 06:12:09.244 UTC [279925] STATEMENT:  SELECT * FROM error_logs LIMIT 5
-2025-07-13 06:12:09.387 UTC [279940] ERROR:  relation "audit_logs" does not exist at character 36
-2025-07-13 06:12:09.387 UTC [279940] STATEMENT:  SELECT COUNT(*) as total_rows FROM audit_logs
-2025-07-13 06:12:09.456 UTC [279947] ERROR:  relation "audit_logs" does not exist at character 15
-2025-07-13 06:12:09.456 UTC [279947] STATEMENT:  SELECT * FROM audit_logs ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:09.528 UTC [279955] ERROR:  relation "audit_logs" does not exist at character 15
-2025-07-13 06:12:09.528 UTC [279955] STATEMENT:  SELECT * FROM audit_logs LIMIT 5
-2025-07-13 06:12:09.683 UTC [279970] ERROR:  relation "workflows" does not exist at character 36
-2025-07-13 06:12:09.683 UTC [279970] STATEMENT:  SELECT COUNT(*) as total_rows FROM workflows
-2025-07-13 06:12:09.759 UTC [279978] ERROR:  relation "workflows" does not exist at character 15
-2025-07-13 06:12:09.759 UTC [279978] STATEMENT:  SELECT * FROM workflows ORDER BY created_at DESC LIMIT 5
-2025-07-13 06:12:09.837 UTC [279986] ERROR:  relation "workflows" does not exist at character 15
-2025-07-13 06:12:09.837 UTC [279986] STATEMENT:  SELECT * FROM workflows LIMIT 5
-2025-07-13 06:12:09.988 UTC [280001] ERROR:  relation "credentials" does not exist at character 36
-2025-07-13 06:12:09.988 UTC [280001] STATEMENT:  SELECT COUNT(*) as total_rows FROM credentials
 2025-07-13 06:12:10.061 UTC [280008] ERROR:  relation "credentials" does not exist at character 15
 2025-07-13 06:12:10.061 UTC [280008] STATEMENT:  SELECT * FROM credentials ORDER BY created_at DESC LIMIT 5
 2025-07-13 06:12:10.132 UTC [280015] ERROR:  relation "credentials" does not exist at character 15
 2025-07-13 06:12:10.132 UTC [280015] STATEMENT:  SELECT * FROM credentials LIMIT 5
 2025-07-13 06:12:10.377 UTC [280038] ERROR:  column "created_at" does not exist at character 39
 2025-07-13 06:12:10.377 UTC [280038] STATEMENT:  SELECT * FROM webhook_entity ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:12:17.959 UTC [280055] FATAL:  database "vietbot" does not exist
+2025-07-13 06:12:28.007 UTC [280065] FATAL:  database "vietbot" does not exist
+2025-07-13 06:12:38.058 UTC [280072] FATAL:  database "vietbot" does not exist
+2025-07-13 06:12:48.106 UTC [280082] FATAL:  database "vietbot" does not exist
+2025-07-13 06:12:58.154 UTC [280091] FATAL:  database "vietbot" does not exist
+2025-07-13 06:13:05.196 UTC [280121] ERROR:  column "started_at" does not exist at character 45
+2025-07-13 06:13:05.196 UTC [280121] HINT:  Perhaps you meant to reference the column "execution_entity.startedAt".
+2025-07-13 06:13:05.196 UTC [280121] STATEMENT:  SELECT COUNT(*) FROM execution_entity WHERE started_at > CURRENT_DATE
+2025-07-13 06:13:05.274 UTC [280129] ERROR:  column "started_at" does not exist at character 67
+2025-07-13 06:13:05.274 UTC [280129] HINT:  Perhaps you meant to reference the column "execution_entity.startedAt".
+2025-07-13 06:13:05.274 UTC [280129] STATEMENT:  SELECT COUNT(*) FROM execution_entity WHERE status = 'failed' AND started_at > CURRENT_DATE
+2025-07-13 06:13:05.355 UTC [280137] ERROR:  column "started_at" does not exist at character 12
+2025-07-13 06:13:05.355 UTC [280137] HINT:  Perhaps you meant to reference the column "execution_entity.startedAt".
+2025-07-13 06:13:05.355 UTC [280137] STATEMENT:  SELECT MAX(started_at) FROM execution_entity
+2025-07-13 06:13:05.541 UTC [280144] ERROR:  column "created_at" does not exist at character 85
+2025-07-13 06:13:05.541 UTC [280144] HINT:  Perhaps you meant to reference the column "workflow_entity.createdAt".
+2025-07-13 06:13:05.541 UTC [280144] STATEMENT:  SELECT id, name, active, jsonb_array_length(nodes::jsonb -> 'nodes') as node_count, created_at, updated_at FROM workflow_entity ORDER BY active DESC, updated_at DESC
+2025-07-13 06:13:05.607 UTC [280152] ERROR:  column e.workflow_id does not exist at character 155
+2025-07-13 06:13:05.607 UTC [280152] HINT:  Perhaps you meant to reference the column "e.workflowId".
+2025-07-13 06:13:05.607 UTC [280152] STATEMENT:  SELECT e.id, e.workflow_id, w.name as workflow_name, e.status, e.mode, e.started_at, e.finished_at FROM execution_entity e LEFT JOIN workflow_entity w ON e.workflow_id = w.id ORDER BY e.started_at DESC LIMIT 20
+2025-07-13 06:13:05.674 UTC [280159] ERROR:  column e.workflow_id does not exist at character 122
+2025-07-13 06:13:05.674 UTC [280159] HINT:  Perhaps you meant to reference the column "e.workflowId".
+2025-07-13 06:13:05.674 UTC [280159] STATEMENT:  SELECT e.id, w.name as workflow_name, e.started_at, e.finished_at FROM execution_entity e LEFT JOIN workflow_entity w ON e.workflow_id = w.id WHERE e.status = 'failed' ORDER BY e.started_at DESC LIMIT 5
+2025-07-13 06:13:05.813 UTC [280175] ERROR:  column "created_at" does not exist at character 24
+2025-07-13 06:13:05.813 UTC [280175] HINT:  Perhaps you meant to reference the column "credentials_entity.createdAt".
+2025-07-13 06:13:05.813 UTC [280175] STATEMENT:  SELECT id, name, type, created_at, updated_at FROM credentials_entity ORDER BY updated_at DESC
+2025-07-13 06:13:05.884 UTC [280183] ERROR:  column we.workflow_id does not exist at character 148
+2025-07-13 06:13:05.884 UTC [280183] HINT:  Perhaps you meant to reference the column "we.workflowId".
+2025-07-13 06:13:05.884 UTC [280183] STATEMENT:  SELECT we.webhook_id, we.webhook_path, we.method, we.node, w.name as workflow_name, w.active FROM webhook_entity we LEFT JOIN workflow_entity w ON we.workflow_id = w.id ORDER BY w.active DESC
+2025-07-13 06:13:06.766 UTC [280260] ERROR:  column "created_at" does not exist at character 38
+2025-07-13 06:13:06.766 UTC [280260] STATEMENT:  SELECT * FROM conversations ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:06.995 UTC [280284] ERROR:  relation "messages" does not exist at character 36
+2025-07-13 06:13:06.995 UTC [280284] STATEMENT:  SELECT COUNT(*) as total_rows FROM messages
+2025-07-13 06:13:07.072 UTC [280291] ERROR:  relation "messages" does not exist at character 15
+2025-07-13 06:13:07.072 UTC [280291] STATEMENT:  SELECT * FROM messages ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:07.140 UTC [280299] ERROR:  relation "messages" does not exist at character 15
+2025-07-13 06:13:07.140 UTC [280299] STATEMENT:  SELECT * FROM messages LIMIT 5
+2025-07-13 06:13:07.291 UTC [280313] ERROR:  relation "workflow_executions" does not exist at character 36
+2025-07-13 06:13:07.291 UTC [280313] STATEMENT:  SELECT COUNT(*) as total_rows FROM workflow_executions
+2025-07-13 06:13:07.360 UTC [280321] ERROR:  relation "workflow_executions" does not exist at character 15
+2025-07-13 06:13:07.360 UTC [280321] STATEMENT:  SELECT * FROM workflow_executions ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:07.442 UTC [280328] ERROR:  relation "workflow_executions" does not exist at character 15
+2025-07-13 06:13:07.442 UTC [280328] STATEMENT:  SELECT * FROM workflow_executions LIMIT 5
+2025-07-13 06:13:07.581 UTC [280343] ERROR:  relation "session_states" does not exist at character 36
+2025-07-13 06:13:07.581 UTC [280343] STATEMENT:  SELECT COUNT(*) as total_rows FROM session_states
+2025-07-13 06:13:07.649 UTC [280351] ERROR:  relation "session_states" does not exist at character 15
+2025-07-13 06:13:07.649 UTC [280351] STATEMENT:  SELECT * FROM session_states ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:07.718 UTC [280358] ERROR:  relation "session_states" does not exist at character 15
+2025-07-13 06:13:07.718 UTC [280358] STATEMENT:  SELECT * FROM session_states LIMIT 5
+2025-07-13 06:13:08.217 UTC [280407] FATAL:  database "vietbot" does not exist
+2025-07-13 06:13:08.365 UTC [280421] ERROR:  relation "user_preferences" does not exist at character 36
+2025-07-13 06:13:08.365 UTC [280421] STATEMENT:  SELECT COUNT(*) as total_rows FROM user_preferences
+2025-07-13 06:13:08.455 UTC [280429] ERROR:  relation "user_preferences" does not exist at character 15
+2025-07-13 06:13:08.455 UTC [280429] STATEMENT:  SELECT * FROM user_preferences ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:08.526 UTC [280437] ERROR:  relation "user_preferences" does not exist at character 15
+2025-07-13 06:13:08.526 UTC [280437] STATEMENT:  SELECT * FROM user_preferences LIMIT 5
+2025-07-13 06:13:08.688 UTC [280452] ERROR:  relation "faq_items" does not exist at character 36
+2025-07-13 06:13:08.688 UTC [280452] STATEMENT:  SELECT COUNT(*) as total_rows FROM faq_items
+2025-07-13 06:13:08.757 UTC [280459] ERROR:  relation "faq_items" does not exist at character 15
+2025-07-13 06:13:08.757 UTC [280459] STATEMENT:  SELECT * FROM faq_items ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:08.831 UTC [280466] ERROR:  relation "faq_items" does not exist at character 15
+2025-07-13 06:13:08.831 UTC [280466] STATEMENT:  SELECT * FROM faq_items LIMIT 5
+2025-07-13 06:13:08.985 UTC [280482] ERROR:  relation "analytics_events" does not exist at character 36
+2025-07-13 06:13:08.985 UTC [280482] STATEMENT:  SELECT COUNT(*) as total_rows FROM analytics_events
+2025-07-13 06:13:09.057 UTC [280490] ERROR:  relation "analytics_events" does not exist at character 15
+2025-07-13 06:13:09.057 UTC [280490] STATEMENT:  SELECT * FROM analytics_events ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:09.126 UTC [280497] ERROR:  relation "analytics_events" does not exist at character 15
+2025-07-13 06:13:09.126 UTC [280497] STATEMENT:  SELECT * FROM analytics_events LIMIT 5
+2025-07-13 06:13:09.272 UTC [280512] ERROR:  relation "error_logs" does not exist at character 36
+2025-07-13 06:13:09.272 UTC [280512] STATEMENT:  SELECT COUNT(*) as total_rows FROM error_logs
+2025-07-13 06:13:09.342 UTC [280520] ERROR:  relation "error_logs" does not exist at character 15
+2025-07-13 06:13:09.342 UTC [280520] STATEMENT:  SELECT * FROM error_logs ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:09.419 UTC [280528] ERROR:  relation "error_logs" does not exist at character 15
+2025-07-13 06:13:09.419 UTC [280528] STATEMENT:  SELECT * FROM error_logs LIMIT 5
+2025-07-13 06:13:09.577 UTC [280544] ERROR:  relation "audit_logs" does not exist at character 36
+2025-07-13 06:13:09.577 UTC [280544] STATEMENT:  SELECT COUNT(*) as total_rows FROM audit_logs
+2025-07-13 06:13:09.649 UTC [280551] ERROR:  relation "audit_logs" does not exist at character 15
+2025-07-13 06:13:09.649 UTC [280551] STATEMENT:  SELECT * FROM audit_logs ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:09.718 UTC [280558] ERROR:  relation "audit_logs" does not exist at character 15
+2025-07-13 06:13:09.718 UTC [280558] STATEMENT:  SELECT * FROM audit_logs LIMIT 5
+2025-07-13 06:13:09.867 UTC [280573] ERROR:  relation "workflows" does not exist at character 36
+2025-07-13 06:13:09.867 UTC [280573] STATEMENT:  SELECT COUNT(*) as total_rows FROM workflows
+2025-07-13 06:13:09.940 UTC [280581] ERROR:  relation "workflows" does not exist at character 15
+2025-07-13 06:13:09.940 UTC [280581] STATEMENT:  SELECT * FROM workflows ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:10.017 UTC [280589] ERROR:  relation "workflows" does not exist at character 15
+2025-07-13 06:13:10.017 UTC [280589] STATEMENT:  SELECT * FROM workflows LIMIT 5
+2025-07-13 06:13:10.165 UTC [280604] ERROR:  relation "credentials" does not exist at character 36
+2025-07-13 06:13:10.165 UTC [280604] STATEMENT:  SELECT COUNT(*) as total_rows FROM credentials
+2025-07-13 06:13:10.233 UTC [280612] ERROR:  relation "credentials" does not exist at character 15
+2025-07-13 06:13:10.233 UTC [280612] STATEMENT:  SELECT * FROM credentials ORDER BY created_at DESC LIMIT 5
+2025-07-13 06:13:10.302 UTC [280620] ERROR:  relation "credentials" does not exist at character 15
+2025-07-13 06:13:10.302 UTC [280620] STATEMENT:  SELECT * FROM credentials LIMIT 5
+2025-07-13 06:13:10.573 UTC [280643] ERROR:  column "created_at" does not exist at character 39
+2025-07-13 06:13:10.573 UTC [280643] STATEMENT:  SELECT * FROM webhook_entity ORDER BY created_at DESC LIMIT 5
