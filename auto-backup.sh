@@ -333,3 +333,8 @@ git commit -m "Auto backup - $TIMESTAMP - Full system visibility" --quiet
 git push origin main --quiet
 
 echo "Backup completed at $TIMESTAMP with COMPLETE system visibility"
+
+# Thêm vào cuối script, sau khi git push
+LAST_COMMIT=$(git log -1 --format="%ai %h %s")
+sed -i "s/\[Will be updated after commit\]/$LAST_COMMIT/" STATUS.md
+git add STATUS.md && git commit -m "Update git commit time" && git push
