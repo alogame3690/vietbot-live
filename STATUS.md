@@ -1,23 +1,23 @@
 # VietBot Live Status
 
 ## ⏰ TIME INFORMATION
-- **VPS Time**: 2025-07-15 21:36:01
+- **VPS Time**: 2025-07-15 21:37:01
 - **VPS Timezone**: Asia/Ho_Chi_Minh
-- **Script Run Time**: 2025-07-15 14:36:01 UTC
-- **Unix Timestamp**: 1752590161
+- **Script Run Time**: 2025-07-15 14:37:01 UTC
+- **Unix Timestamp**: 1752590221
 - **Session Started**:  2025-07-13 20:38:10
-- **Last Update**: Tue Jul 15 09:36:01 PM +07 2025
-- **Next Update**: 2025-07-15 21:37:01
+- **Last Update**: Tue Jul 15 09:37:01 PM +07 2025
+- **Next Update**: 2025-07-15 21:38:01
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 5 days, 11 hours, 22 minutes
+- Uptime: up 5 days, 11 hours, 23 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.10, 0.17, 0.16
+- Load Average:  0.04, 0.14, 0.15
 
 ## 🐳 Docker Services
 ```
@@ -40,19 +40,19 @@ vietbot_node_exporter       Up 5 days                 127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.03%     14.56MiB / 3.82GiB
-vietbot_pgadmin             0.10%     237.3MiB / 3.82GiB
-vietbot_n8n                 4.04%     192.5MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     7.586MiB / 3.82GiB
+vietbot_caddy               0.14%     14.82MiB / 3.82GiB
+vietbot_pgadmin             0.04%     237.3MiB / 3.82GiB
+vietbot_n8n                 3.37%     196.5MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     8.258MiB / 3.82GiB
 vietbot_redisinsight        0.00%     97.7MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     9.141MiB / 3.82GiB
-vietbot_prometheus          0.30%     43.84MiB / 3.82GiB
-vietbot_dozzle              0.18%     12.02MiB / 3.82GiB
-vietbot_grafana             0.37%     76.43MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     8.547MiB / 3.82GiB
+vietbot_prometheus          2.11%     44.05MiB / 3.82GiB
+vietbot_dozzle              0.16%     12.02MiB / 3.82GiB
+vietbot_grafana             0.26%     76.43MiB / 3.82GiB
 vietbot_postgres            0.04%     43.03MiB / 3.82GiB
 vietbot_portainer           0.00%     10.73MiB / 3.82GiB
 vietbot_redis               0.71%     4.195MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.312MiB / 3.82GiB
+vietbot_node_exporter       0.00%     9.309MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -71,7 +71,7 @@ vietbot_node_exporter       0.00%     9.312MiB / 3.82GiB
  public | event_destinations         | table | vietbot | permanent   | heap          | 8192 bytes | 
  public | execution_annotation_tags  | table | vietbot | permanent   | heap          | 0 bytes    | 
  public | execution_annotations      | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | execution_data             | table | vietbot | permanent   | heap          | 3632 kB    | 
+ public | execution_data             | table | vietbot | permanent   | heap          | 3640 kB    | 
  public | execution_entity           | table | vietbot | permanent   | heap          | 64 kB      | 
  public | execution_metadata         | table | vietbot | permanent   | heap          | 8192 bytes | 
  public | faq                        | table | vietbot | permanent   | heap          | 8192 bytes | 
@@ -92,7 +92,7 @@ vietbot_node_exporter       0.00%     9.312MiB / 3.82GiB
  public | settings                   | table | vietbot | permanent   | heap          | 32 kB      | 
  public | shared_credentials         | table | vietbot | permanent   | heap          | 16 kB      | 
  public | shared_workflow            | table | vietbot | permanent   | heap          | 16 kB      | 
- public | system_config              | table | vietbot | permanent   | heap          | 48 kB      | 
+ public | system_config              | table | vietbot | permanent   | heap          | 8192 bytes | 
  public | tag_entity                 | table | vietbot | permanent   | heap          | 0 bytes    | 
  public | test_definition            | table | vietbot | permanent   | heap          | 8192 bytes | 
  public | test_metric                | table | vietbot | permanent   | heap          | 0 bytes    | 
