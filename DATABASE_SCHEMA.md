@@ -1,4 +1,4 @@
-# Database Schema - Updated: 2025-07-15 22:10:01
+# Database Schema - Updated: 2025-07-15 22:11:01
 
 ```sql
 --
@@ -505,11 +505,19 @@ CREATE TABLE public.faq (
     category character varying(100),
     keywords text[],
     view_count integer DEFAULT 0,
-    active boolean DEFAULT true
+    active boolean DEFAULT true,
+    priority integer DEFAULT 0
 );
 
 
 ALTER TABLE public.faq OWNER TO vietbot;
+
+--
+-- Name: COLUMN faq.priority; Type: COMMENT; Schema: public; Owner: vietbot
+--
+
+COMMENT ON COLUMN public.faq.priority IS 'Độ ưu tiên hiển thị FAQ (số càng nhỏ càng ưu tiên)';
+
 
 --
 -- Name: faq_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
@@ -993,11 +1001,4 @@ CREATE TABLE public.system_config (
     description text,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
-
-
-ALTER TABLE public.system_config OWNER TO vietbot;
-
---
--- Name: system_config_id_seq; Type: SEQUENCE; Schema: public; Owner: vietbot
---
 ```
