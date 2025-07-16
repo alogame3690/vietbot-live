@@ -1,23 +1,23 @@
 # VietBot Live Status
 
 ## ⏰ TIME INFORMATION
-- **VPS Time**: 2025-07-17 01:45:01
+- **VPS Time**: 2025-07-17 01:46:01
 - **VPS Timezone**: Asia/Ho_Chi_Minh
-- **Script Run Time**: 2025-07-16 18:45:01 UTC
-- **Unix Timestamp**: 1752691501
+- **Script Run Time**: 2025-07-16 18:46:01 UTC
+- **Unix Timestamp**: 1752691561
 - **Session Started**:  2025-07-13 20:38:10
-- **Last Update**: Thu Jul 17 01:45:01 AM +07 2025
-- **Next Update**: 2025-07-17 01:46:01
+- **Last Update**: Thu Jul 17 01:46:01 AM +07 2025
+- **Next Update**: 2025-07-17 01:47:01
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 6 days, 15 hours, 31 minutes
+- Uptime: up 6 days, 15 hours, 32 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.11, 0.24, 0.19
+- Load Average:  0.07, 0.21, 0.18
 
 ## 🐳 Docker Services
 ```
@@ -40,19 +40,19 @@ vietbot_node_exporter       Up 6 days               127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.02%     14.46MiB / 3.82GiB
+vietbot_caddy               0.07%     14.46MiB / 3.82GiB
 vietbot_pgadmin             0.04%     238.7MiB / 3.82GiB
-vietbot_n8n                 0.80%     210.1MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     10.41MiB / 3.82GiB
+vietbot_n8n                 0.77%     209.4MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     10.42MiB / 3.82GiB
 vietbot_redisinsight        0.00%     99.15MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     12.27MiB / 3.82GiB
-vietbot_prometheus          0.23%     44.59MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     11.91MiB / 3.82GiB
+vietbot_prometheus          0.00%     44.6MiB / 3.82GiB
 vietbot_dozzle              0.00%     11.98MiB / 3.82GiB
-vietbot_grafana             0.27%     76.78MiB / 3.82GiB
-vietbot_postgres            1.06%     75.11MiB / 3.82GiB
+vietbot_grafana             0.28%     76.78MiB / 3.82GiB
+vietbot_postgres            0.02%     75.11MiB / 3.82GiB
 vietbot_portainer           0.00%     18.87MiB / 3.82GiB
-vietbot_redis               0.84%     7.184MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.695MiB / 3.82GiB
+vietbot_redis               0.67%     7.188MiB / 3.82GiB
+vietbot_node_exporter       0.00%     9.688MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
