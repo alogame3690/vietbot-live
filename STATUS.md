@@ -1,23 +1,23 @@
 # VietBot Live Status
 
 ## ⏰ TIME INFORMATION
-- **VPS Time**: 2025-07-16 11:32:01
+- **VPS Time**: 2025-07-16 11:33:01
 - **VPS Timezone**: Asia/Ho_Chi_Minh
-- **Script Run Time**: 2025-07-16 04:32:01 UTC
-- **Unix Timestamp**: 1752640321
+- **Script Run Time**: 2025-07-16 04:33:02 UTC
+- **Unix Timestamp**: 1752640382
 - **Session Started**:  2025-07-13 20:38:10
-- **Last Update**: Wed Jul 16 11:32:01 AM +07 2025
-- **Next Update**: 2025-07-16 11:33:01
+- **Last Update**: Wed Jul 16 11:33:02 AM +07 2025
+- **Next Update**: 2025-07-16 11:34:02
 
 ## 🖥️ VPS Info
 - IP: 103.77.214.227
 - Domain: n8n.ntvn8n.xyz
 - OS: Ubuntu 22.04.5 LTS
-- Uptime: up 6 days, 1 hour, 18 minutes
+- Uptime: up 6 days, 1 hour, 19 minutes
 - CPU: 2 cores
 - RAM: 3.8Gi
 - Disk: 19G free
-- Load Average:  0.04, 0.08, 0.09
+- Load Average:  0.15, 0.11, 0.10
 
 ## 🐳 Docker Services
 ```
@@ -40,19 +40,19 @@ vietbot_node_exporter       Up 6 days                 127.0.0.1:9100->9100/tcp
 ## 📊 Resource Usage
 ```
 NAME                        CPU %     MEM USAGE / LIMIT
-vietbot_caddy               0.06%     16.71MiB / 3.82GiB
-vietbot_pgadmin             0.08%     238.7MiB / 3.82GiB
-vietbot_n8n                 0.77%     196.7MiB / 3.82GiB
-vietbot_postgres_exporter   0.00%     8.027MiB / 3.82GiB
+vietbot_caddy               0.00%     17.64MiB / 3.82GiB
+vietbot_pgadmin             0.07%     238.7MiB / 3.82GiB
+vietbot_n8n                 0.84%     202.4MiB / 3.82GiB
+vietbot_postgres_exporter   0.00%     7.785MiB / 3.82GiB
 vietbot_redisinsight        0.00%     98.31MiB / 3.82GiB
-vietbot_redis_exporter      0.00%     11.74MiB / 3.82GiB
-vietbot_prometheus          0.00%     43.98MiB / 3.82GiB
+vietbot_redis_exporter      0.00%     11.96MiB / 3.82GiB
+vietbot_prometheus          2.34%     44.05MiB / 3.82GiB
 vietbot_dozzle              0.00%     11.96MiB / 3.82GiB
-vietbot_grafana             0.32%     76.4MiB / 3.82GiB
-vietbot_postgres            0.02%     55MiB / 3.82GiB
+vietbot_grafana             0.21%     76.4MiB / 3.82GiB
+vietbot_postgres            0.21%     57.89MiB / 3.82GiB
 vietbot_portainer           0.00%     19.39MiB / 3.82GiB
-vietbot_redis               0.60%     4.938MiB / 3.82GiB
-vietbot_node_exporter       0.00%     9.352MiB / 3.82GiB
+vietbot_redis               0.86%     4.934MiB / 3.82GiB
+vietbot_node_exporter       0.00%     9.102MiB / 3.82GiB
 ```
 
 ## 🗄️ Database Status
@@ -71,7 +71,7 @@ vietbot_node_exporter       0.00%     9.352MiB / 3.82GiB
  public | event_destinations         | table | vietbot | permanent   | heap          | 8192 bytes | 
  public | execution_annotation_tags  | table | vietbot | permanent   | heap          | 0 bytes    | 
  public | execution_annotations      | table | vietbot | permanent   | heap          | 8192 bytes | 
- public | execution_data             | table | vietbot | permanent   | heap          | 8792 kB    | 
+ public | execution_data             | table | vietbot | permanent   | heap          | 8800 kB    | 
  public | execution_entity           | table | vietbot | permanent   | heap          | 72 kB      | 
  public | execution_metadata         | table | vietbot | permanent   | heap          | 8192 bytes | 
  public | faq                        | table | vietbot | permanent   | heap          | 16 kB      | 
@@ -102,7 +102,7 @@ vietbot_node_exporter       0.00%     9.352MiB / 3.82GiB
  public | variables                  | table | vietbot | permanent   | heap          | 0 bytes    | 
  public | webhook_entity             | table | vietbot | permanent   | heap          | 16 kB      | 
  public | workflow_entity            | table | vietbot | permanent   | heap          | 280 kB     | 
- public | workflow_history           | table | vietbot | permanent   | heap          | 704 kB     | 
+ public | workflow_history           | table | vietbot | permanent   | heap          | 768 kB     | 
  public | workflow_statistics        | table | vietbot | permanent   | heap          | 40 kB      | 
  public | workflows_tags             | table | vietbot | permanent   | heap          | 0 bytes    | 
 (45 rows)
